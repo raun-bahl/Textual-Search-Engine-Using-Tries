@@ -1,5 +1,8 @@
 package comp3506.assn2.application;
 
+import comp3506.assn2.utils.Trie;
+import comp3506.assn2.utils.TrieContainer;
+
 import java.io.*;
 
 /**
@@ -13,6 +16,8 @@ import java.io.*;
 public class AutoTester implements Search {
 
 	BufferedReader docReader, indexReader, stopWordsReader;
+	Trie stopWordsTrie;
+	TrieContainer stopWordsContainer;
 
 	/**
 	 * Create an object that performs search operations on a document.
@@ -33,12 +38,20 @@ public class AutoTester implements Search {
 			throws FileNotFoundException, IllegalArgumentException {
 		// TODO Implement constructor to load the data from these files and
 		// TODO setup your data structures for the application.
+		stopWordsTrie = new Trie(stopWordsFileName);
+		stopWordsContainer = new TrieContainer();
 		try {
 			try {
 				docReader = new BufferedReader(new FileReader(documentFileName));
 				indexReader = new BufferedReader(new FileReader(indexFileName));
 				stopWordsReader = new BufferedReader(new FileReader(stopWordsFileName));
 				System.out.println("Files loaded!");
+				String word;
+				while ((word = stopWordsReader.readLine()) != null) {
+					stopWordsTrie.storeWords(stopWordsContainer,word);
+				}
+				stopWordsTrie.printWordStrings(stopWordsContainer,"");
+
 
 			} catch (FileNotFoundException e) {
 

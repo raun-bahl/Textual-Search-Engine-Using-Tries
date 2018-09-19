@@ -8,22 +8,22 @@ public class Trie {
     static TrieContainer start;
     static int wordCount = 0;
 
-    public Trie(String indexFileName) throws FileNotFoundException, IllegalArgumentException {
+    public Trie(String stopWordsFile) throws FileNotFoundException, IllegalArgumentException {
 
         try {
             try {
-                indexReader = new BufferedReader(new FileReader(indexFileName));
+                stopWordsReader = new BufferedReader(new FileReader(stopWordsFile));
                 System.out.println("Files loaded! \n");
                 String x;
                 start = new TrieContainer();
-                while ((x = indexReader.readLine()) != null) {
+                while ((x = stopWordsReader.readLine()) != null) {
                     storeWords(start,x);
                 }
 
 
             } catch (FileNotFoundException e) {
-                if (!new File(indexFileName).exists()) {
-                    throw new FileNotFoundException(indexFileName);
+                if (!new File(stopWordsFile).exists()) {
+                    throw new FileNotFoundException(stopWordsFile);
                 }
             }
         } catch (IOException e) {
@@ -34,36 +34,15 @@ public class Trie {
     public static void main(String[] args) throws FileNotFoundException {
 
         Trie t = new Trie("files/stop-words.txt");
-//        String x;
-//        try {
-//            while ((x = stopWordsReader.readLine()) != null) {
-//                storeWords(start,x);
-//            }
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
 
-//        printWordStrings(start,"");
-        printWordStrings(start,"");
-        System.out.println("\n" + isWordPresent(start,"alllll"));
-        System.out.println("\n" + isWordPresent(start,"that"));
         System.out.println("\n" + wordCount);
-
-
-//        storeWords(start, "hello");
-//        storeWords(start, "hallo");
-//        storeWords(start, "hell");
-//        storeWords(start, "teg");
-//        storeWords(start, "tag");
-//        printWordStrings(start,"");
-
-//        System.out.println("\n"+isWordPresent(start, "teg"));
-
+        
     }
-    private static void storeWords(TrieContainer start, String word){
-
+    public void storeWords(TrieContainer start, String word){
+        char tempChar, character;
         for (int j = 0; j < word.length(); j++) {
-            char character = word.charAt(j);
+            tempChar = word.charAt(j);
+            character = Character.toLowerCase(tempChar);
             //In series, check the position of character,
             //if it is already filled then check the series of filled Trie object.
             //if it is not filled then create new TrieContainer object and place it at correct position, and check
@@ -82,7 +61,7 @@ public class Trie {
         }
         wordCount++;
     }
-    private static boolean isWordPresent(TrieContainer start, String word){
+    public boolean isWordPresent(TrieContainer start, String word){
         boolean isFound = true;
         for (int i = 0; i < word.length(); i++) {
             char character = word.charAt(i);
@@ -103,7 +82,7 @@ public class Trie {
         }
         return isFound;
     }
-    private static void printWordStrings(TrieContainer start, String toPrint) {
+    public  void printWordStrings(TrieContainer start, String toPrint) {
         if(start==null){
             return;
         }
