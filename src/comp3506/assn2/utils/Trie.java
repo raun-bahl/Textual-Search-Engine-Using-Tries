@@ -6,6 +6,7 @@ public class Trie {
 
     BufferedReader docReader, indexReader, stopWordsReader;
     static TrieContainer start;
+    static int wordCount = 0;
 
     public Trie(String indexFileName) throws FileNotFoundException, IllegalArgumentException {
 
@@ -46,6 +47,7 @@ public class Trie {
         printWordStrings(start,"");
         System.out.println("\n" + isWordPresent(start,"alllll"));
         System.out.println("\n" + isWordPresent(start,"that"));
+        System.out.println("\n" + wordCount);
 
 
 //        storeWords(start, "hello");
@@ -59,24 +61,26 @@ public class Trie {
 
     }
     private static void storeWords(TrieContainer start, String word){
+
         for (int j = 0; j < word.length(); j++) {
             char character = word.charAt(j);
             //In series, check the position of character,
             //if it is already filled then check the series of filled Trie object.
             //if it is not filled then create new TrieContainer object and place it at correct position, and check
             //if it is end of the word, then mark isEnd = true or else false;
-            if(start.series[character-97]!=null){
-                if(word.length()-1 == j){ //if word is found till last character, then mark the end as true.
-                    start.series[character-97].isEnd = true;
+            if (start.series[character - 97] != null) {
+                if (word.length() - 1 == j) { //if word is found till last character, then mark the end as true.
+                    start.series[character - 97].isEnd = true;
                 }
-                start = start.series[character-97];
-            }else{
+                start = start.series[character - 97];
+            } else {
                 TrieContainer trie = new TrieContainer();
-                trie.isEnd = (word.length()-1 == j ? true:false);
-                start.series[character-97] = trie;
-                start = start.series[character-97];
+                trie.isEnd = (word.length() - 1 == j ? true : false);
+                start.series[character - 97] = trie;
+                start = start.series[character - 97];
             }
         }
+        wordCount++;
     }
     private static boolean isWordPresent(TrieContainer start, String word){
         boolean isFound = true;

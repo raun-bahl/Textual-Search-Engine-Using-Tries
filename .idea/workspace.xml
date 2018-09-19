@@ -2,11 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c7a36541-8336-4793-9977-3de5aca2c8eb" name="Default" comment="Algorithms and Data Structures base files, code provided.">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/src/comp3506/assn2/utils/Implementation.java" afterPath="$PROJECT_DIR$/src/comp3506/assn2/utils/Implementation.java" />
       <change beforePath="$PROJECT_DIR$/src/comp3506/assn2/utils/Trie.java" afterPath="$PROJECT_DIR$/src/comp3506/assn2/utils/Trie.java" />
-      <change beforePath="$PROJECT_DIR$/src/comp3506/assn2/utils/TrieContainer.java" afterPath="$PROJECT_DIR$/src/comp3506/assn2/utils/TrieContainer.java" />
-      <change beforePath="$PROJECT_DIR$/tst/comp3506/assn2/application/AutoTester.java" afterPath="$PROJECT_DIR$/tst/comp3506/assn2/application/AutoTester.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -109,8 +105,8 @@
       <file leaf-file-name="Trie.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/comp3506/assn2/utils/Trie.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="530">
-              <caret line="41" column="34" lean-forward="true" selection-start-line="41" selection-start-column="34" selection-end-line="41" selection-end-column="34" />
+            <state relative-caret-position="-166">
+              <caret line="49" column="45" lean-forward="false" selection-start-line="49" selection-start-column="45" selection-end-line="49" selection-end-column="45" />
               <folding />
             </state>
           </provider>
@@ -412,7 +408,7 @@
       <updated>1537145375382</updated>
       <workItem from="1537145380533" duration="8844000" />
       <workItem from="1537231407282" duration="6127000" />
-      <workItem from="1537318840721" duration="1800000" />
+      <workItem from="1537318840721" duration="2430000" />
     </task>
     <task id="LOCAL-00001" summary="Algorithms and Data Structures base files, code provided.">
       <created>1537145916563</created>
@@ -425,10 +421,10 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="16771000" />
+    <option name="totallyTimeSpent" value="17401000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="994" y="0" width="446" height="900" extended-state="6" />
+    <frame x="484" y="0" width="956" height="900" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -444,7 +440,7 @@
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.00896861" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.0041841003" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Learn" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -689,14 +685,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/comp3506/assn2/utils/TrieContainer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="6" column="1" lean-forward="false" selection-start-line="6" selection-start-column="1" selection-end-line="6" selection-end-column="1" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/comp3506/assn2/utils/Implementation.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="75">
@@ -722,10 +710,18 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/comp3506/assn2/utils/TrieContainer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="6" column="1" lean-forward="false" selection-start-line="6" selection-start-column="1" selection-end-line="6" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/comp3506/assn2/utils/Trie.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="530">
-          <caret line="41" column="34" lean-forward="true" selection-start-line="41" selection-start-column="34" selection-end-line="41" selection-end-column="34" />
+        <state relative-caret-position="-166">
+          <caret line="49" column="45" lean-forward="false" selection-start-line="49" selection-start-column="45" selection-end-line="49" selection-end-column="45" />
           <folding />
         </state>
       </provider>
