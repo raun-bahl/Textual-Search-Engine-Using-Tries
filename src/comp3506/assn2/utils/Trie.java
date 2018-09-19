@@ -8,35 +8,8 @@ public class Trie {
     static TrieContainer start;
     static int wordCount = 0;
 
-    public Trie(String stopWordsFile) throws FileNotFoundException, IllegalArgumentException {
+    public Trie(String stopWordsFile) {
 
-        try {
-            try {
-                stopWordsReader = new BufferedReader(new FileReader(stopWordsFile));
-                System.out.println("Files loaded! \n");
-                String x;
-                start = new TrieContainer();
-                while ((x = stopWordsReader.readLine()) != null) {
-                    storeWords(start,x);
-                }
-
-
-            } catch (FileNotFoundException e) {
-                if (!new File(stopWordsFile).exists()) {
-                    throw new FileNotFoundException(stopWordsFile);
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-    }
-    public static void main(String[] args) throws FileNotFoundException {
-
-        Trie t = new Trie("files/stop-words.txt");
-
-        System.out.println("\n" + wordCount);
-        
     }
     public void storeWords(TrieContainer start, String word){
         char tempChar, character;
@@ -95,6 +68,10 @@ public class Trie {
                 printWordStrings(t, toPrint + (char)(97+i));
             }
         }
+    }
+
+    public int getWordCount() {
+        return wordCount;
     }
 
 }

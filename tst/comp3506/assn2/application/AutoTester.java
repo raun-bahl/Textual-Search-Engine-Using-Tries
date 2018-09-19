@@ -36,6 +36,7 @@ public class AutoTester implements Search {
 	 */
 	public AutoTester(String documentFileName, String indexFileName, String stopWordsFileName)
 			throws FileNotFoundException, IllegalArgumentException {
+
 		// TODO Implement constructor to load the data from these files and
 		// TODO setup your data structures for the application.
 		stopWordsTrie = new Trie(stopWordsFileName);
