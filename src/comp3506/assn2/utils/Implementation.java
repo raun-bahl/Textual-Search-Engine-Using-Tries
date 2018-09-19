@@ -1,6 +1,9 @@
 package comp3506.assn2.utils;
 
+import java.util.HashMap;
+
 public class Implementation {
+
     public class Entry<K, V> {
         K key;
         V value;
@@ -47,6 +50,10 @@ public class Implementation {
             }
             return false;
         }
+
+    }
+
+    public class HMapImplementation<K, V> {
 
     }
 }
