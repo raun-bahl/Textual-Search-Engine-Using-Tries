@@ -4,6 +4,7 @@ import comp3506.assn2.utils.Trie;
 import comp3506.assn2.utils.TrieContainer;
 
 import java.io.*;
+import java.util.Scanner;
 
 /**
  * Hook class used by automated testing tool.
@@ -15,9 +16,11 @@ import java.io.*;
  */
 public class AutoTester implements Search {
 
-	BufferedReader docReader, indexReader, stopWordsReader;
-	Trie stopWordsTrie;
-	TrieContainer stopWordsContainer;
+//	BufferedReader docReader, indexReader, stopWordsReader;
+	Scanner docReader, indexReader, stopWordsReader;
+	File docFile, indexFile, stopWordsFile;
+	Trie stopWordsTrie, mainDocTrie, indexTrie;
+	TrieContainer stopWordsContainer, mainDocContainer, indexContainer;
 
 	/**
 	 * Create an object that performs search operations on a document.
@@ -39,20 +42,28 @@ public class AutoTester implements Search {
 
 		// TODO Implement constructor to load the data from these files and
 		// TODO setup your data structures for the application.
-		stopWordsTrie = new Trie(stopWordsFileName);
+		stopWordsTrie = new Trie();
 		stopWordsContainer = new TrieContainer();
+		docFile  = new File(documentFileName);
+		indexFile = new File(indexFileName);
+		stopWordsFile = new File(stopWordsFileName);
+
 		try {
 			try {
-				docReader = new BufferedReader(new FileReader(documentFileName));
-				indexReader = new BufferedReader(new FileReader(indexFileName));
-				stopWordsReader = new BufferedReader(new FileReader(stopWordsFileName));
-				System.out.println("Files loaded!");
-				String word;
-				while ((word = stopWordsReader.readLine()) != null) {
-					stopWordsTrie.storeWords(stopWordsContainer,word);
-				}
-				stopWordsTrie.printWordStrings(stopWordsContainer,"");
+				docReader = new Scanner(docFile);
+				indexReader = new Scanner(indexFile);
+				stopWordsReader = new Scanner(stopWordsFile);
 
+				System.out.println("Files loaded!");
+
+
+				/**
+				 * Good for debugging
+				 */
+				while (stopWordsReader.hasNext()) {
+					stopWordsTrie.storeWords(stopWordsContainer, stopWordsReader.next());
+				}
+//				stopWordsTrie.printWordStrings(stopWordsContainer,"");
 
 			} catch (FileNotFoundException e) {
 

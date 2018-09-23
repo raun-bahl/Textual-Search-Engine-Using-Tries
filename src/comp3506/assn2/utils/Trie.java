@@ -8,7 +8,7 @@ public class Trie {
     static TrieContainer start;
     static int wordCount = 0;
 
-    public Trie(String stopWordsFile) {
+    public Trie() {
 
     }
     public void storeWords(TrieContainer start, String word){
@@ -73,5 +73,10 @@ public class Trie {
     public int getWordCount() {
         return wordCount;
     }
+
+    public static void main(String[] args) {
+        //do nothing
+    }
+
 
 }
