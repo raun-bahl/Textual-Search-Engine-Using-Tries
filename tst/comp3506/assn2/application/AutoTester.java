@@ -52,7 +52,9 @@ public class AutoTester implements Search {
 		// TODO Implement constructor to load the data from these files and
 		// TODO setup your data structures for the application.
 		stopWordsTrie = new Trie();
+		indexTrie = new Trie();
 		stopWordsContainer = new TrieContainer();
+		indexContainer = new TrieContainer();
 		docFile  = new File(documentFileName);
 		indexFile = new File(indexFileName);
 		stopWordsFile = new File(stopWordsFileName);
@@ -74,13 +76,6 @@ public class AutoTester implements Search {
 				}
 //				stopWordsTrie.printWordStrings(stopWordsContainer,"");
 
-
-//				while (indexReader.hasNext()) {
-//					indexReader.useDelimiter(",");
-//					if (indexReader.hasNextInt()) {
-//						list.add(indexReader.nextInt());
-//					}
-//				}
 //
 
 				while (indexReader.hasNextLine()) {
@@ -88,10 +83,6 @@ public class AutoTester implements Search {
 					String tokens[] = line.split(",");
 					int number = Integer.parseInt(tokens[1]);
 					list.add(number);
-				}
-
-				for (Integer i : list) {
-					System.out.println(i);
 				}
 
 				indexReader.close();
@@ -104,8 +95,24 @@ public class AutoTester implements Search {
 				while (indexReader.hasNext()) {
 					//indexReader.useDelimiter(",");
 					String line = indexReader.nextLine().replaceAll("[0-9]","").replaceAll(",","");
-					System.out.println(line);
+					//System.out.println(line);
+					String[] words = line.split("\\s+");
+					for (String word: words) {
+						//System.out.println(word);
+						indexTrie.storeWords(indexContainer,word);
+					}
 				}
+
+				indexTrie.printWordStrings(indexContainer,"");
+
+
+				System.out.println("\n\n");
+//
+//				while(docReader.hasNext()) {
+//					String line = docReader.nextLine().replaceAll("\n","");
+//					System.out.println(line);
+//				}
+
 
 
 

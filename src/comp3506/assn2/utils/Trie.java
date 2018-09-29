@@ -13,23 +13,30 @@ public class Trie {
     }
     public void storeWords(TrieContainer start, String word){
         char tempChar, character;
+        int aint = (int)'a';
+        int zint = (int)'z';
+
         for (int j = 0; j < word.length(); j++) {
             tempChar = word.charAt(j);
+            if (tempChar == '\'') {
+                tempChar = 'x';
+       //         tempChar = Integer.toString().charAt(0);
+            }
             character = Character.toLowerCase(tempChar);
             //In series, check the position of character,
             //if it is already filled then check the series of filled Trie object.
             //if it is not filled then create new TrieContainer object and place it at correct position, and check
             //if it is end of the word, then mark isEnd = true or else false;
-            if (start.series[character - 97] != null) {
+            if (start.series[character - aint] != null) {
                 if (word.length() - 1 == j) { //if word is found till last character, then mark the end as true.
-                    start.series[character - 97].isEnd = true;
+                    start.series[character - aint].isEnd = true;
                 }
-                start = start.series[character - 97];
+                start = start.series[character - aint];
             } else {
                 TrieContainer trie = new TrieContainer();
                 trie.isEnd = (word.length() - 1 == j ? true : false);
-                start.series[character - 97] = trie;
-                start = start.series[character - 97];
+                start.series[character - aint] = trie;
+                start = start.series[character - aint];
             }
         }
         wordCount++;
