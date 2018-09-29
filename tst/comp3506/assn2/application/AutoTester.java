@@ -94,13 +94,16 @@ public class AutoTester implements Search {
 					System.out.println(i);
 				}
 
+				indexReader.close();
+				indexReader = null;
+
+				indexReader = new Scanner(indexFile);
 
 
 				System.out.println("\n\n");
 				while (indexReader.hasNext()) {
 					//indexReader.useDelimiter(",");
 					String line = indexReader.nextLine().replaceAll("[0-9]","").replaceAll(",","");
-					indexReader.next().replaceAll(",","");
 					System.out.println(line);
 				}
 
