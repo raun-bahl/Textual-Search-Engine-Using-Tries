@@ -5,6 +5,8 @@ import comp3506.assn2.utils.TrieContainer;
 
 import java.io.*;
 import java.util.Scanner;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Hook class used by automated testing tool.
@@ -21,6 +23,8 @@ public class AutoTester implements Search {
 	File docFile, indexFile, stopWordsFile;
 	Trie stopWordsTrie, mainDocTrie, indexTrie;
 	TrieContainer stopWordsContainer, mainDocContainer, indexContainer;
+
+	List<Integer> list;
 
 	/**
 	 * Create an object that performs search operations on a document.
@@ -39,6 +43,11 @@ public class AutoTester implements Search {
 	 */
 	public AutoTester(String documentFileName, String indexFileName, String stopWordsFileName)
 			throws FileNotFoundException, IllegalArgumentException {
+
+		char[] ch = new char[100000];
+		int index = 0;
+
+		list = new ArrayList<Integer>();
 
 		// TODO Implement constructor to load the data from these files and
 		// TODO setup your data structures for the application.
@@ -64,6 +73,66 @@ public class AutoTester implements Search {
 					stopWordsTrie.storeWords(stopWordsContainer, stopWordsReader.next());
 				}
 //				stopWordsTrie.printWordStrings(stopWordsContainer,"");
+
+
+//				while (indexReader.hasNext()) {
+//					indexReader.useDelimiter(",");
+//					if (indexReader.hasNextInt()) {
+//						list.add(indexReader.nextInt());
+//					}
+//				}
+//
+
+				while (indexReader.hasNextLine()) {
+					String line = indexReader.nextLine();
+					String tokens[] = line.split(",");
+					int number = Integer.parseInt(tokens[1]);
+					list.add(number);
+				}
+
+				for (Integer i : list) {
+					System.out.println(i);
+				}
+
+
+
+				System.out.println("\n\n");
+				while (indexReader.hasNext()) {
+					//indexReader.useDelimiter(",");
+					String line = indexReader.nextLine().replaceAll("[0-9]","").replaceAll(",","");
+					indexReader.next().replaceAll(",","");
+					System.out.println(line);
+				}
+
+
+
+
+//				while (indexReader.hasNext()) {
+//					for (int i = 0; i < indexReader.next().length(); i++) {
+//						char c = indexReader.next().charAt(i);
+//						if (Character.isLetter(c)) {
+//							ch[index++] = c;
+//						} else {
+//							ch[index] = '\0';
+//							index = 0;
+//							String b = new String(ch);
+//							indexTrie.storeWords(indexContainer, b);
+//						}
+//					}
+//				}
+
+//				while (indexReader.hasNext()) {
+//					char c = indexReader.next().charAt(0);
+//					if (Character.isLetter(c)) {
+//						ch[index++] = c;
+//					} else {
+//						ch[index] = '\0';
+//						index = 0;
+//						indexTrie.storeWords(indexContainer, indexReader.next());
+//					}
+//				}
+
+				//indexTrie.printWordStrings(indexContainer, "");
 
 			} catch (FileNotFoundException e) {
 
