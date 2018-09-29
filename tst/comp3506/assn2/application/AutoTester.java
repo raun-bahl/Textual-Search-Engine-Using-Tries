@@ -92,6 +92,10 @@ public class AutoTester implements Search {
 
 
 				System.out.println("\n\n");
+				//int l = indexTrie.countWordOccurence(indexContainer,"ado");
+
+				System.out.println(indexContainer.series.length);
+				//System.out.println(l);
 				while (indexReader.hasNext()) {
 					//indexReader.useDelimiter(",");
 					String line = indexReader.nextLine().replaceAll("[0-9]","").replaceAll(",","");
@@ -103,10 +107,16 @@ public class AutoTester implements Search {
 					}
 				}
 
+
 				indexTrie.printWordStrings(indexContainer,"");
 
 
 				System.out.println("\n\n");
+				//int l;
+
+				//l = wordCount("venus",indexContainer);
+
+				//System.out.println(l);
 //
 //				while(docReader.hasNext()) {
 //					String line = docReader.nextLine().replaceAll("\n","");
@@ -164,6 +174,19 @@ public class AutoTester implements Search {
 
 	@Override
 	public int wordCount(String word) throws IllegalArgumentException {
-		return 0;
+
+		int result = 0;
+
+		if (indexContainer.isEnd) {
+			result++;
+		}
+
+		for (int i = 0; i< 26; i++) {
+			if (indexContainer.series[i] != null && indexContainer.series[i].equals(word)) {
+//				result += wordCount(word,indexContainer.series[i]);
+			}
+		}
+
+		return result;
 	}
 }
