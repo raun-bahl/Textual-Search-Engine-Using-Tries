@@ -4,6 +4,7 @@ import comp3506.assn2.utils.Trie;
 import comp3506.assn2.utils.TrieContainer;
 
 import java.io.*;
+import java.util.Collections;
 import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +25,7 @@ public class AutoTester implements Search {
 	Trie stopWordsTrie, mainDocTrie, indexTrie;
 	TrieContainer stopWordsContainer, mainDocContainer, indexContainer;
 
-	List<Integer> list;
+	List<Integer> list, list1;
 
 	/**
 	 * Create an object that performs search operations on a document.
@@ -48,13 +49,19 @@ public class AutoTester implements Search {
 		int index = 0;
 
 		list = new ArrayList<Integer>();
+		list1 = new ArrayList<Integer>();
 
 		// TODO Implement constructor to load the data from these files and
 		// TODO setup your data structures for the application.
 		stopWordsTrie = new Trie();
 		indexTrie = new Trie();
+		mainDocTrie = new Trie();
+
 		stopWordsContainer = new TrieContainer();
 		indexContainer = new TrieContainer();
+		mainDocContainer = new TrieContainer();
+
+
 		docFile  = new File(documentFileName);
 		indexFile = new File(indexFileName);
 		stopWordsFile = new File(stopWordsFileName);
@@ -90,6 +97,10 @@ public class AutoTester implements Search {
 
 				indexReader = new Scanner(indexFile);
 
+				String number;
+
+
+
 
 				System.out.println("\n\n");
 				//int l = indexTrie.countWordOccurence(indexContainer,"ado");
@@ -107,8 +118,37 @@ public class AutoTester implements Search {
 					}
 				}
 
+				while (docReader.hasNext()) {
+					String docLine = docReader.nextLine();
+					//System.out.println(docLine);
+					if (docLine.isEmpty()) {
+						docLine = docLine.replaceAll("(?m)^[ \\t]*\\r?\\n", "");
+					} else {
+						if (docLine.matches("[0-9]+")) {
+							number = docLine;
+							list1.add(Integer.parseInt(number));
+						} else {
+							String l = docLine.replaceAll("[^a-zA-Z0-9]"," ").
+									toLowerCase().replaceAll("( )+", " ").replaceAll("\\d","");
+							//System.out.println(l);
+							String[] words = l.split(" ");
+							for (String word: words) {
+								//System.out.println(word);
+								mainDocTrie.storeWords(mainDocContainer, word);
+							}
+						}
+					}
+				}
 
-				indexTrie.printWordStrings(indexContainer,"");
+//				Collections.sort(list1);
+//				for (Integer inte: list1 ) {
+//					System.out.println(inte);
+//				}
+
+				mainDocTrie.printWordStrings(mainDocContainer,"");
+
+
+				//indexTrie.printWordStrings(indexContainer,"");
 
 
 				System.out.println("\n\n");
