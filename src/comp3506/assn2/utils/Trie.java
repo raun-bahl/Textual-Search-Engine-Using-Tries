@@ -20,8 +20,6 @@ public class Trie {
             if (tempChar == '\'') {
                 //tempChar = 'x';
                 int apostropheChar = 26;
-               char ascii = (char) (apostropheChar);
-                System.out.println(ascii);
                 if (start.series[apostropheChar] != null) {
                     if (word.length() - 1 == j) {
                         start.series[apostropheChar].isEnd = true;

@@ -118,6 +118,8 @@ public class AutoTester implements Search {
 					}
 				}
 
+
+				//TODO: Currently this code breaks the part after the apostrophe into another word. Fix the logic.
 				while (docReader.hasNext()) {
 					String docLine = docReader.nextLine();
 					//System.out.println(docLine);
@@ -128,7 +130,8 @@ public class AutoTester implements Search {
 							number = docLine;
 							list1.add(Integer.parseInt(number));
 						} else {
-							String l = docLine.replaceAll("[^a-zA-Z0-9]"," ").
+							//[^a-zA-Z0-9]
+							String l = docLine.replaceAll("[^a-zA-Z\\']"," ").
 									toLowerCase().replaceAll("( )+", " ").replaceAll("\\d","");
 							//System.out.println(l);
 							String[] words = l.split(" ");
@@ -209,7 +212,9 @@ public class AutoTester implements Search {
 		}
 		}
 	public static void main(String[] args) throws FileNotFoundException {
-		AutoTester autoTester = new AutoTester("files/shakespeare.txt","files/shakespeare-index.txt","files/stop-words.txt");
+		AutoTester autoTester = new AutoTester("files/shakespeare.txt","files/shakespeare-index.txt",
+				"files/stop-words" +
+				".txt");
 	}
 
 	@Override
