@@ -1,13 +1,12 @@
 package comp3506.assn2.application;
 
+import comp3506.assn2.utils.MyMap;
+import comp3506.assn2.utils.Pair;
 import comp3506.assn2.utils.Trie;
 import comp3506.assn2.utils.TrieContainer;
 
 import java.io.*;
-import java.util.Collections;
-import java.util.Scanner;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Hook class used by automated testing tool.
@@ -26,6 +25,9 @@ public class AutoTester implements Search {
 	TrieContainer stopWordsContainer, mainDocContainer, indexContainer;
 
 	List<Integer> list, list1;
+
+
+	MyMap<Trie, List<List<Pair<Integer,Integer>>>> invertedIndex;
 
 	/**
 	 * Create an object that performs search operations on a document.
@@ -50,6 +52,8 @@ public class AutoTester implements Search {
 
 		list = new ArrayList<Integer>();
 		list1 = new ArrayList<Integer>();
+
+		invertedIndex = new MyMap<Trie,List<List<Pair<Integer,Integer>>>>();
 
 		// TODO Implement constructor to load the data from these files and
 		// TODO setup your data structures for the application.
@@ -143,12 +147,12 @@ public class AutoTester implements Search {
 					}
 				}
 
-//				Collections.sort(list1);
-//				for (Integer inte: list1 ) {
-//					System.out.println(inte);
-//				}
+				Collections.sort(list1);
+				for (Integer inte: list1 ) {
+					System.out.println(inte);
+				}
 
-				mainDocTrie.printWordStrings(mainDocContainer,"");
+//				mainDocTrie.printWordStrings(mainDocContainer,"");
 
 
 				//indexTrie.printWordStrings(indexContainer,"");
