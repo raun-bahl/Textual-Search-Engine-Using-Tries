@@ -129,6 +129,19 @@ public class MyMap<K,V>{
         return count;
     }
 
+    public void display() {
+
+        for(int i=0; i<initialCapacity; i++) {
+            if (entryTable[i] != null) {
+                Entry<K,V> entry = entryTable[i];
+                while (entry != null) {
+                    System.out.println("{" + entry.k + "=" + entry.v + "} ");
+                    entry = entry.next;
+                }
+            }
+        }
+    }
+
     private int hashValue(K key) {
         return Math.abs(key.hashCode()) % initialCapacity;
     }

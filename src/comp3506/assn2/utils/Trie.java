@@ -6,12 +6,14 @@ public class Trie {
 
     BufferedReader docReader, indexReader, stopWordsReader;
     static TrieContainer start;
-    static int wordCount = 0;
+    static int wordCount1 = 0;
+    static int wordCount2 = 0;
+    static int temp = 0;
 
     public Trie() {
 
     }
-    public void storeWords(TrieContainer start, String word){
+    public TrieContainer storeWords(TrieContainer start, String word){
         char tempChar, character;
         int aint = (int)'a';
 
@@ -30,6 +32,7 @@ public class Trie {
                     trie.isEnd = (word.length() - 1 == j ? true : false);
                     start.series[apostropheChar] = trie;
                     start = start.series[apostropheChar];
+                    temp++;
                 }
             } else {
                 character = Character.toLowerCase(tempChar);
@@ -50,7 +53,11 @@ public class Trie {
                 }
             }
         }
-        wordCount++;
+        if (start.isEnd) {
+            wordCount1++;
+        }
+
+        return start;
     }
     public boolean isWordPresent(TrieContainer start, String word){
         boolean isFound = true;
@@ -89,7 +96,7 @@ public class Trie {
     }
 
     public int getWordCount() {
-        return wordCount;
+        return wordCount1-temp;
     }
 
     public static void main(String[] args) {

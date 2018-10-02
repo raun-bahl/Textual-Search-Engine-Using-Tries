@@ -26,8 +26,9 @@ public class AutoTester implements Search {
 
 	List<Integer> list, list1;
 
+	public int lineNumber=1, columnNumber=1;
 
-	MyMap<Trie, List<List<Pair<Integer,Integer>>>> invertedIndex;
+	MyMap<TrieContainer, List<List<Pair<Integer,Integer>>>> invertedIndex;
 
 	/**
 	 * Create an object that performs search operations on a document.
@@ -53,7 +54,8 @@ public class AutoTester implements Search {
 		list = new ArrayList<Integer>();
 		list1 = new ArrayList<Integer>();
 
-		invertedIndex = new MyMap<Trie,List<List<Pair<Integer,Integer>>>>();
+		invertedIndex = new MyMap<TrieContainer,List<List<Pair<Integer,Integer>>>>();
+
 
 		// TODO Implement constructor to load the data from these files and
 		// TODO setup your data structures for the application.
@@ -103,6 +105,9 @@ public class AutoTester implements Search {
 
 				String number;
 
+				TrieContainer temppp = new TrieContainer();
+
+
 
 
 
@@ -122,9 +127,14 @@ public class AutoTester implements Search {
 					}
 				}
 
+				Pair<Integer,Integer> pair;
+				List<Pair<Integer,Integer>> innerList;
+				List<List<Pair<Integer,Integer>>> outerList;
+
 
 				//TODO: Currently this code breaks the part after the apostrophe into another word. Fix the logic.
 				while (docReader.hasNext()) {
+					lineNumber++;
 					String docLine = docReader.nextLine();
 					//System.out.println(docLine);
 					if (docLine.isEmpty()) {
@@ -140,17 +150,34 @@ public class AutoTester implements Search {
 							//System.out.println(l);
 							String[] words = l.split(" ");
 							for (String word: words) {
-								//System.out.println(word);
-								mainDocTrie.storeWords(mainDocContainer, word);
-							}
-						}
-					}
-				}
 
-				Collections.sort(list1);
-				for (Integer inte: list1 ) {
-					System.out.println(inte);
+								pair = new Pair<>(0,0);
+								innerList = new ArrayList<>();
+								outerList = new ArrayList<>();
+
+								pair.setLeftValue(lineNumber);
+								pair.setRightValue(columnNumber);
+								innerList.add(pair);
+								outerList.add(innerList);
+
+								//System.out.println(word);
+								temppp=mainDocTrie.storeWords(mainDocContainer, word);
+								invertedIndex.put(temppp,outerList);
+							}
+							System.out.println("Wot");
+						}
+						System.out.println("Yeah");
+					}
+					System.out.println("wooooo");
 				}
+			System.out.println("Nahhh");
+//				Collections.sort(list1);
+//				for (Integer inte: list1 ) {
+//					System.out.println(inte);
+//				}
+
+				//System.out.println(mainDocTrie.getWordCount());
+				invertedIndex.display();
 
 //				mainDocTrie.printWordStrings(mainDocContainer,"");
 
@@ -159,6 +186,7 @@ public class AutoTester implements Search {
 
 
 				System.out.println("\n\n");
+				System.out.println(lineNumber);
 				//int l;
 
 				//l = wordCount("venus",indexContainer);
@@ -216,7 +244,7 @@ public class AutoTester implements Search {
 		}
 		}
 	public static void main(String[] args) throws FileNotFoundException {
-		AutoTester autoTester = new AutoTester("files/shakespeare.txt","files/shakespeare-index.txt",
+		AutoTester autoTester = new AutoTester("files/random.txt","files/shakespeare-index.txt",
 				"files/stop-words" +
 				".txt");
 	}
