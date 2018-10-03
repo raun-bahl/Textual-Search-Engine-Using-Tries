@@ -18,17 +18,20 @@ import java.util.*;
  */
 public class AutoTester implements Search {
 
-//	BufferedReader docReader, indexReader, stopWordsReader;
 	Scanner docReader, indexReader, stopWordsReader;
 	File docFile, indexFile, stopWordsFile;
 	Trie stopWordsTrie, mainDocTrie, indexTrie;
 	TrieContainer stopWordsContainer, mainDocContainer, indexContainer;
 
-	List<Integer> list, list1;
+	/* Data Structures for the inverted index */
+	Pair<Integer,Integer> pair;
+	List<Pair<Integer,Integer>> innerList;
+	List<List<Pair<Integer,Integer>>> outerList;
+	List<TrieContainer> wordList = new ArrayList<>();
 
 	public int lineNumber=1, columnNumber=1;
 
-	MyMap<TrieContainer, List<List<Pair<Integer,Integer>>>> invertedIndex;
+	MyMap<List<TrieContainer>, List<List<Pair<Integer,Integer>>>> invertedIndex;
 
 	/**
 	 * Create an object that performs search operations on a document.
@@ -48,25 +51,21 @@ public class AutoTester implements Search {
 	public AutoTester(String documentFileName, String indexFileName, String stopWordsFileName)
 			throws FileNotFoundException, IllegalArgumentException {
 
-		char[] ch = new char[100000];
-		int index = 0;
-
-		list = new ArrayList<Integer>();
-		list1 = new ArrayList<Integer>();
-
-		invertedIndex = new MyMap<TrieContainer,List<List<Pair<Integer,Integer>>>>();
-
-
 		// TODO Implement constructor to load the data from these files and
 		// TODO setup your data structures for the application.
+
+		invertedIndex = new MyMap<List<TrieContainer>,List<List<Pair<Integer,Integer>>>>();
+
+		/* Trie steup */
 		stopWordsTrie = new Trie();
 		indexTrie = new Trie();
 		mainDocTrie = new Trie();
 
+		/* TrieContainer Setup */
 		stopWordsContainer = new TrieContainer();
 		indexContainer = new TrieContainer();
 		mainDocContainer = new TrieContainer();
-
+		TrieContainer temppp = new TrieContainer();
 
 		docFile  = new File(documentFileName);
 		indexFile = new File(indexFileName);
@@ -77,157 +76,92 @@ public class AutoTester implements Search {
 				docReader = new Scanner(docFile);
 				indexReader = new Scanner(indexFile);
 				stopWordsReader = new Scanner(stopWordsFile);
-
 				System.out.println("Files loaded!");
 
-
 				/**
-				 * Good for debugging
+				 * Store all stop words in the stopWordsTrie.
 				 */
 				while (stopWordsReader.hasNext()) {
 					stopWordsTrie.storeWords(stopWordsContainer, stopWordsReader.next());
 				}
-//				stopWordsTrie.printWordStrings(stopWordsContainer,"");
-
-//
-
-				while (indexReader.hasNextLine()) {
-					String line = indexReader.nextLine();
-					String tokens[] = line.split(",");
-					int number = Integer.parseInt(tokens[1]);
-					list.add(number);
-				}
-
-				indexReader.close();
-				indexReader = null;
-
-				indexReader = new Scanner(indexFile);
-
-				String number;
-
-				TrieContainer temppp = new TrieContainer();
 
 
+				/*
+				Code for saving the index number in the index files, might be
+				useful later.
+				 */
+//				while (indexReader.hasNextLine()) {
+//					String line = indexReader.nextLine();
+//					String tokens[] = line.split(",");
+//					int number = Integer.parseInt(tokens[1]);
+//					list.add(number);
+//				}
+//				indexReader.close();
+//				indexReader = null;
+//				indexReader = new Scanner(indexFile);
 
 
-
-				System.out.println("\n\n");
-				//int l = indexTrie.countWordOccurence(indexContainer,"ado");
-
-				System.out.println(indexContainer.series.length);
-				//System.out.println(l);
+				/*
+				Parse the index file and store it in indexTrie.
+				 */
 				while (indexReader.hasNext()) {
-					//indexReader.useDelimiter(",");
-					String line = indexReader.nextLine().replaceAll("[0-9]","").replaceAll(",","");
-					//System.out.println(line);
+
+					String line = indexReader.nextLine()
+							.replaceAll("[0-9]","")
+							.replaceAll(",","");
 					String[] words = line.split("\\s+");
+
 					for (String word: words) {
-						//System.out.println(word);
 						indexTrie.storeWords(indexContainer,word);
 					}
 				}
 
-				Pair<Integer,Integer> pair;
-				List<Pair<Integer,Integer>> innerList;
-				List<List<Pair<Integer,Integer>>> outerList;
+				/*
+				Temporary data structures for the inverted index.
+				 */
+				innerList = new ArrayList<>();
+				outerList = new ArrayList<>();
 
 
-				//TODO: Currently this code breaks the part after the apostrophe into another word. Fix the logic.
+				/*
+				Main Document File Parsing and Indexing
+				 */
 				while (docReader.hasNext()) {
-					lineNumber++;
+
 					String docLine = docReader.nextLine();
-					//System.out.println(docLine);
+					//Replace all empty lines
 					if (docLine.isEmpty()) {
-						docLine = docLine.replaceAll("(?m)^[ \\t]*\\r?\\n", "");
+						docLine = docLine.
+								replaceAll("(?m)^[ \\t]*\\r?\\n",
+										"");
 					} else {
-						if (docLine.matches("[0-9]+")) {
-							number = docLine;
-							list1.add(Integer.parseInt(number));
-						} else {
-							//[^a-zA-Z0-9]
-							String l = docLine.replaceAll("[^a-zA-Z\\']"," ").
-									toLowerCase().replaceAll("( )+", " ").replaceAll("\\d","");
-							//System.out.println(l);
-							String[] words = l.split(" ");
-							for (String word: words) {
+						//Removing punctuation, numbers etc.
+						String l = docLine
+								.replaceAll("[^a-zA-Z\\']",
+										" ").toLowerCase()
+								.replaceAll("( )+", " ")
+								.replaceAll("\\d","");
+						//store individual words in the line in an array
+						String[] words = l.split(" ");
+						for (String word: words) {
 
-								pair = new Pair<>(0,0);
-								innerList = new ArrayList<>();
-								outerList = new ArrayList<>();
-
-								pair.setLeftValue(lineNumber);
-								pair.setRightValue(columnNumber);
-								innerList.add(pair);
-								outerList.add(innerList);
-
-								//System.out.println(word);
-								temppp=mainDocTrie.storeWords(mainDocContainer, word);
-								invertedIndex.put(temppp,outerList);
+							pair = new Pair<>(0,0);
+							pair.setLeftValue(lineNumber);
+							pair.setRightValue(columnNumber);
+							System.out.println(pair.getLeftValue() + " " + pair.getRightValue());
+							innerList.add(pair);
+							outerList.add(innerList);
+							temppp=mainDocTrie.storeWords(mainDocContainer, word);
+							wordList.add(temppp);
 							}
-							System.out.println("Wot");
 						}
-						System.out.println("Yeah");
+						lineNumber++;
 					}
-					System.out.println("wooooo");
-				}
-			System.out.println("Nahhh");
-//				Collections.sort(list1);
-//				for (Integer inte: list1 ) {
-//					System.out.println(inte);
-//				}
-
-				//System.out.println(mainDocTrie.getWordCount());
-				invertedIndex.display();
-
-//				mainDocTrie.printWordStrings(mainDocContainer,"");
 
 
-				//indexTrie.printWordStrings(indexContainer,"");
+				invertedIndex.put(wordList,outerList);
+				//invertedIndex.display();
 
-
-				System.out.println("\n\n");
-				System.out.println(lineNumber);
-				//int l;
-
-				//l = wordCount("venus",indexContainer);
-
-				//System.out.println(l);
-//
-//				while(docReader.hasNext()) {
-//					String line = docReader.nextLine().replaceAll("\n","");
-//					System.out.println(line);
-//				}
-
-
-
-
-
-//				while (indexReader.hasNext()) {
-//					for (int i = 0; i < indexReader.next().length(); i++) {
-//						char c = indexReader.next().charAt(i);
-//						if (Character.isLetter(c)) {
-//							ch[index++] = c;
-//						} else {
-//							ch[index] = '\0';
-//							index = 0;
-//							String b = new String(ch);
-//							indexTrie.storeWords(indexContainer, b);
-//						}
-//					}
-//				}
-
-//				while (indexReader.hasNext()) {
-//					char c = indexReader.next().charAt(0);
-//					if (Character.isLetter(c)) {
-//						ch[index++] = c;
-//					} else {
-//						ch[index] = '\0';
-//						index = 0;
-//						indexTrie.storeWords(indexContainer, indexReader.next());
-//					}
-//				}
-
-				//indexTrie.printWordStrings(indexContainer, "");
 
 			} catch (FileNotFoundException e) {
 
@@ -243,8 +177,14 @@ public class AutoTester implements Search {
 			e.printStackTrace();
 		}
 		}
+
+
+
+
+
 	public static void main(String[] args) throws FileNotFoundException {
-		AutoTester autoTester = new AutoTester("files/random.txt","files/shakespeare-index.txt",
+		AutoTester autoTester = new AutoTester("files/" +
+				"random.txt","files/shakespeare-index.txt",
 				"files/stop-words" +
 				".txt");
 	}
@@ -254,15 +194,16 @@ public class AutoTester implements Search {
 
 		int result = 0;
 
-		if (indexContainer.isEnd) {
-			result++;
-		}
-
-		for (int i = 0; i< 26; i++) {
-			if (indexContainer.series[i] != null && indexContainer.series[i].equals(word)) {
-//				result += wordCount(word,indexContainer.series[i]);
-			}
-		}
+		/* Faulty code below */
+//		if (indexContainer.isEnd) {
+//			result++;
+//		}
+//
+//		for (int i = 0; i< 26; i++) {
+//			if (indexContainer.series[i] != null && indexContainer.series[i].equals(word)) {
+////				result += wordCount(word,indexContainer.series[i]);
+//			}
+//		}
 
 		return result;
 	}
