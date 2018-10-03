@@ -122,12 +122,12 @@ public class AutoTester implements Search {
 				innerList = new ArrayList<>();
 				outerList = new ArrayList<>();
 
-
+				int index = 0;
 				/*
 				Main Document File Parsing and Indexing
 				 */
 				while (docReader.hasNext()) {
-
+					columnNumber = 1;
 					String docLine = docReader.nextLine();
 					//Replace all empty lines
 					if (docLine.isEmpty()) {
@@ -143,20 +143,49 @@ public class AutoTester implements Search {
 								.replaceAll("\\d","");
 						//store individual words in the line in an array
 						String[] words = l.split(" ");
+
 						for (String word: words) {
 
 							pair = new Pair<>(0,0);
 							pair.setLeftValue(lineNumber);
 							pair.setRightValue(columnNumber);
+							mainDocTrie.storeWords(mainDocContainer,word);
+							columnNumber += word.length()+1;
+
+							if (mainDocTrie.isWordPresent(mainDocContainer,word)) {
+								innerList.add(pair);
+								outerList.add(innerList);
+							} else {
+								innerList = new ArrayList<>();
+								innerList.add(pair);
+								outerList.add(innerList);
+							}
+
 							System.out.println(pair.getLeftValue() + " " + pair.getRightValue());
 							innerList.add(pair);
 							outerList.add(innerList);
-							temppp=mainDocTrie.storeWords(mainDocContainer, word);
-							wordList.add(temppp);
-							}
+
+							/* Might be useful? */
+							//temppp=mainDocTrie.storeWords(mainDocContainer, word);
+							//wordList.add(temppp);
 						}
-						lineNumber++;
+
+//						while (index< l.length()) {
+//							if (Character.isLetter(l.charAt(index))) {
+//								sb.append(l.charAt(index));
+//								columnNumber++;
+//							} else if (l.charAt(index) == ' ') {
+//								System.out.println(sb);
+//								columnNumber++;
+////								temppp=mainDocTrie.storeWords(mainDocContainer,sb.toString());
+//							}
+//							//columnNumber++;
+//							index++;
+//						}
 					}
+					lineNumber++;
+					}
+				System.out.println(columnNumber);
 
 
 				invertedIndex.put(wordList,outerList);
