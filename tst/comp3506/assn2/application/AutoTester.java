@@ -185,7 +185,7 @@ public class AutoTester implements Search {
 					}
 					lineNumber++;
 					}
-				System.out.println(columnNumber);
+				//System.out.println(columnNumber);
 
 
 				invertedIndex.put(wordList,outerList);
@@ -213,7 +213,7 @@ public class AutoTester implements Search {
 
 	public static void main(String[] args) throws FileNotFoundException {
 		AutoTester autoTester = new AutoTester("files/" +
-				"random.txt","files/shakespeare-index.txt",
+				"shakespeare.txt","files/shakespeare-index.txt",
 				"files/stop-words" +
 				".txt");
 	}

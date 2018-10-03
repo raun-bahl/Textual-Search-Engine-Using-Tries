@@ -59,23 +59,29 @@ public class Trie {
 
         return start;
     }
+
+    //TODO: Make this compatible with apostrophes
     public boolean isWordPresent(TrieContainer start, String word){
         boolean isFound = true;
         for (int i = 0; i < word.length(); i++) {
             char character = word.charAt(i);
-            //if at character position TrieContainer object is present then character is found and
-            //start looking for next character is word.
-            if(start.series[character-97]!=null){
-                if(word.length()-1 != i){
-                    start = start.series[character-97];
-                }else{
-                    if(!start.series[character-97].isEnd){
-                        isFound = false;
+            if (character == '\'') {
+                continue;
+            } else {
+                //if at character position TrieContainer object is present then character is found and
+                //start looking for next character is word.
+                if (start.series[character - 97] != null) {
+                    if (word.length() - 1 != i) {
+                        start = start.series[character - 97];
+                    } else {
+                        if (!start.series[character - 97].isEnd) {
+                            isFound = false;
+                        }
                     }
+                } else {
+                    isFound = false;
+                    break;
                 }
-            }else{
-                isFound = false;
-                break;
             }
         }
         return isFound;
