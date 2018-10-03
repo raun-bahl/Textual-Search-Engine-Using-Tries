@@ -60,7 +60,7 @@ public class Trie {
         return start;
     }
 
-    //TODO: Make this compatible with apostrophes
+
     public boolean isWordPresent(TrieContainer start, String word){
         boolean isFound = true;
         for (int i = 0; i < word.length(); i++) {

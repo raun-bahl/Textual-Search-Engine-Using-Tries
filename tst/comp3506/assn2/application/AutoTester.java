@@ -7,6 +7,8 @@ import comp3506.assn2.utils.TrieContainer;
 
 import java.io.*;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Hook class used by automated testing tool.
@@ -29,7 +31,7 @@ public class AutoTester implements Search {
 	List<List<Pair<Integer,Integer>>> outerList;
 	List<TrieContainer> wordList = new ArrayList<>();
 
-	public int lineNumber=1, columnNumber=1;
+	public int lineNumber=1, columnNumber;
 
 	MyMap<List<TrieContainer>, List<List<Pair<Integer,Integer>>>> invertedIndex;
 
@@ -73,6 +75,7 @@ public class AutoTester implements Search {
 
 		try {
 			try {
+
 				docReader = new Scanner(docFile);
 				indexReader = new Scanner(indexFile);
 				stopWordsReader = new Scanner(stopWordsFile);
@@ -107,12 +110,12 @@ public class AutoTester implements Search {
 				while (indexReader.hasNext()) {
 
 					String line = indexReader.nextLine()
-							.replaceAll("[0-9]","")
-							.replaceAll(",","");
+							.replaceAll("[0-9]", "")
+							.replaceAll(",", "");
 					String[] words = line.split("\\s+");
 
-					for (String word: words) {
-						indexTrie.storeWords(indexContainer,word);
+					for (String word : words) {
+						indexTrie.storeWords(indexContainer, word);
 					}
 				}
 
@@ -131,44 +134,95 @@ public class AutoTester implements Search {
 					String docLine = docReader.nextLine();
 					//Replace all empty lines
 					if (docLine.isEmpty()) {
-						docLine = docLine.
-								replaceAll("(?m)^[ \\t]*\\r?\\n",
+						docLine = docLine
+								.replaceAll("(?m)^[ \\t]*\\r?\\n",
 										"");
 					} else {
-						//Removing punctuation, numbers etc.
-						String l = docLine
-								.replaceAll("[^a-zA-Z\\']",
-										" ").toLowerCase()
-								.replaceAll("( )+", " ")
-								.replaceAll("\\d","");
-						//store individual words in the line in an array
-						String[] words = l.split(" ");
+						//Regex Lookaround Split below
+						//(?<=' ')
+						if (!docLine.trim().equals(docLine)) {
 
-						for (String word: words) {
+							int count = docLine.indexOf(docLine.trim());
+							columnNumber = count+1;
+							docLine=docLine.trim();
+						}
 
-							pair = new Pair<>(0,0);
-							pair.setLeftValue(lineNumber);
-							pair.setRightValue(columnNumber);
-							mainDocTrie.storeWords(mainDocContainer,word);
-							columnNumber += word.length()+1;
+							String[] words = docLine.split(" ");
 
-							if (mainDocTrie.isWordPresent(mainDocContainer,word)) {
-								innerList.add(pair);
-								outerList.add(innerList);
-							} else {
-								innerList = new ArrayList<>();
-								innerList.add(pair);
-								outerList.add(innerList);
+							for (String word : words) {
+
+								/* Pattern Matchers are important for checking
+								if your word has any trailing special characters.
+								You need to fix this code. As of now, it works
+								fine with trailing spaces but trailing special
+								characters do not work. The Code below will
+								help you later to fix this.
+								 */
+//								Pattern p = Pattern.compile("\\p{Alpha}");
+//								Matcher m = p.matcher(word);
+//
+//								if (m.find()) {
+//									columnNumber = m.start() + 1;
+//
+//								}
+
+//								System.out.println(word);
+//								System.out.println(columnNumber);
+								pair = new Pair<>(0, 0);
+								pair.setLeftValue(lineNumber);
+								pair.setRightValue(columnNumber);
+
+								//System.out.println(pair.getLeftValue() + " " + pair.getRightValue());
+
+
+								String putWord = word
+										.replaceAll("[^a-zA-Z\\']",
+												"").toLowerCase();
+
+								//System.out.println(putWord);
+								mainDocTrie.storeWords(mainDocContainer, putWord);
+								temppp =mainDocTrie.storeWords(mainDocContainer, putWord);
+								wordList.add(temppp);
+								//this might be faulty
+								columnNumber += putWord.length() + 1;
+
+								if (mainDocTrie.isWordPresent(mainDocContainer, putWord)) {
+									innerList.add(pair);
+									outerList.add(innerList);
+								} else {
+									innerList = new ArrayList<>();
+									innerList.add(pair);
+									outerList.add(innerList);
+								}
 							}
 
-							System.out.println(pair.getLeftValue() + " " + pair.getRightValue());
-							innerList.add(pair);
-							outerList.add(innerList);
+					}
 
-							/* Might be useful? */
-							//temppp=mainDocTrie.storeWords(mainDocContainer, word);
-							//wordList.add(temppp);
-						}
+
+
+
+//						//Removing punctuation, numbers etc.
+//						//store individual words in the line in an array
+//						String[] words = l.split(" ");
+
+//						for (String word: words) {
+//
+//							pair = new Pair<>(0,0);
+//							pair.setLeftValue(lineNumber);
+//							pair.setRightValue(columnNumber);
+//							mainDocTrie.storeWords(mainDocContainer,word);
+//							columnNumber += word.length()+1;
+//
+
+//
+//							System.out.println(pair.getLeftValue() + " " + pair.getRightValue());
+//							innerList.add(pair);
+//							outerList.add(innerList);
+//
+//							/* Might be useful? */
+//							//temppp=mainDocTrie.storeWords(mainDocContainer, word);
+//							//wordList.add(temppp);
+//						}
 
 //						while (index< l.length()) {
 //							if (Character.isLetter(l.charAt(index))) {
@@ -182,13 +236,15 @@ public class AutoTester implements Search {
 //							//columnNumber++;
 //							index++;
 //						}
-					}
-					lineNumber++;
-					}
+			lineNumber++;
+				}
+
 				//System.out.println(columnNumber);
 
 
 				invertedIndex.put(wordList,outerList);
+				invertedIndex.display();
+
 				//invertedIndex.display();
 
 
@@ -218,10 +274,20 @@ public class AutoTester implements Search {
 				".txt");
 	}
 
+
 	@Override
 	public int wordCount(String word) throws IllegalArgumentException {
 
 		int result = 0;
+		int totalWords = 0;
+
+		List<TrieContainer> iterator;
+
+//		if (mainDocTrie.isWordPresent(mainDocContainer,word)) {
+//			for (iterator: wordList) {
+//
+//			}
+
 
 		/* Faulty code below */
 //		if (indexContainer.isEnd) {
