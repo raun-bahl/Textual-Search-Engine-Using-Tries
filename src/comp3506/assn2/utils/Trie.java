@@ -10,15 +10,23 @@ public class Trie {
     static int wordCount2 = 0;
     static int temp = 0;
 
-    public Trie() {
 
+    TrieContainer[] myWord;
+    char ch;
+
+    public Trie() {
+        //myWord = new TrieContainer[30];
     }
-    public TrieContainer storeWords(TrieContainer start, String word){
+    public TrieContainer[] storeWords(TrieContainer start, String word){
+
+        myWord = new TrieContainer[word.length()];
         char tempChar, character;
         int aint = (int)'a';
 
         for (int j = 0; j < word.length(); j++) {
             tempChar = word.charAt(j);
+            myWord[j] = start;
+
             if (tempChar == '\'') {
                 //tempChar = 'x';
                 int apostropheChar = 26;
@@ -53,11 +61,7 @@ public class Trie {
                 }
             }
         }
-        if (start.isEnd) {
-            wordCount1++;
-        }
-
-        return start;
+        return myWord;
     }
 
 
@@ -101,32 +105,24 @@ public class Trie {
         }
     }
 
-    public int getWordCount() {
-        return wordCount1-temp;
+    public String getStringWord(TrieContainer[] word) {
+        if (word == null) {
+            return "";
+        }
+        StringBuilder sb = new StringBuilder();
+        String returnString;
+
+        for (int i = 0; i<word.length; i++) {
+            ch = word[i].convertToChar(word[i]);
+            sb.append(ch);
+           //System.out.println(ch);
+        }
+        returnString = sb.toString();
+        return returnString;
     }
 
     public static void main(String[] args) {
         //do nothing
-    }
-
-    public int countWordOccurence(TrieContainer start, String word) {
-        int result = 0;
-
-        if (start.isEnd) {
-            result++;
-        } else {
-            for (int i = 0; i < start.series.length; i++) {
-                TrieContainer t = start.series[i];
-                char ch = word.charAt(i);
-                if (start.series[ch - 97] != null) {
-                    if (word.length() - 1 != i) {
-                        start = start.series[ch - 97];
-                    }
-                }
-                result += countWordOccurence(start,word);
-            }
-        }
-        return result;
     }
 
 }

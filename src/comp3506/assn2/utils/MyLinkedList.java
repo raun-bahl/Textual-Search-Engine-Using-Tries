@@ -1,5 +1,8 @@
 package comp3506.assn2.utils;
 
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
 public class MyLinkedList<T> {
 
     Node start;
@@ -10,6 +13,62 @@ public class MyLinkedList<T> {
         start = null;
         end = null;
         size = 0;
+    }
+
+    private class ListIterator<T> implements java.util.Iterator<T>{
+
+        //Reference to the current node
+        private Node current;
+
+        /**
+         * Default constructor
+         * Run-time complexity: O(1)
+         */
+        private ListIterator() {
+            current = start;
+        }
+
+        /**
+         * Gets the next element.
+         * Run-time complexity: O(1)
+         *
+         * @return <T>, the element
+         *
+         *
+         */
+        public T next() {
+            if (current == null) {
+                throw new NoSuchElementException("No such element exists.");
+            } else {
+                T temp = (T) current.getElement();
+                current = current.getLink();
+                return temp;
+            }
+        }
+
+        /**
+         * Checks if there is a next element in the data structure that
+         * it's iterating over.
+         * Run-time complexity: O(1)
+         *
+         * @return  true if a reference exists
+         *          false if there is no reference to the next node
+         */
+        public boolean hasNext() {
+            return current != null;
+        }
+    }
+
+    /**
+     * Iterator object
+     * Run-time complexity: O(1)
+     *
+     * @return the iterating oject
+     */
+   //Does making this not an override cause any problemos?
+    public java.util.Iterator iterator() {
+        return new ListIterator();
+
     }
 
     public int getSize() {

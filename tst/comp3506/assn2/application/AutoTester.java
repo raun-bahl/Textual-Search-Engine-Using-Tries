@@ -1,14 +1,12 @@
 package comp3506.assn2.application;
 
-import comp3506.assn2.utils.MyMap;
-import comp3506.assn2.utils.Pair;
-import comp3506.assn2.utils.Trie;
-import comp3506.assn2.utils.TrieContainer;
+import comp3506.assn2.utils.*;
 
 import java.io.*;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 
 /**
  * Hook class used by automated testing tool.
@@ -20,6 +18,9 @@ import java.util.regex.Pattern;
  */
 public class AutoTester implements Search {
 
+	Map<Integer,Integer> lol = new HashMap<>();
+
+
 	Scanner docReader, indexReader, stopWordsReader;
 	File docFile, indexFile, stopWordsFile;
 	Trie stopWordsTrie, mainDocTrie, indexTrie;
@@ -28,12 +29,14 @@ public class AutoTester implements Search {
 	/* Data Structures for the inverted index */
 	Pair<Integer,Integer> pair;
 	List<Pair<Integer,Integer>> innerList;
-	List<List<Pair<Integer,Integer>>> outerList;
+	MyLinkedList<List<Pair<Integer,Integer>>> outerList;
 	List<TrieContainer> wordList = new ArrayList<>();
+
+	MyLinkedList<MyMap<TrieContainer[],List<Pair<Integer,Integer>>>> indexer;
 
 	public int lineNumber=1, columnNumber;
 
-	MyMap<List<TrieContainer>, List<List<Pair<Integer,Integer>>>> invertedIndex;
+	MyMap<List<TrieContainer>, MyLinkedList<List<Pair<Integer,Integer>>>> invertedIndex;
 
 	/**
 	 * Create an object that performs search operations on a document.
@@ -56,7 +59,9 @@ public class AutoTester implements Search {
 		// TODO Implement constructor to load the data from these files and
 		// TODO setup your data structures for the application.
 
-		invertedIndex = new MyMap<List<TrieContainer>,List<List<Pair<Integer,Integer>>>>();
+		invertedIndex = new MyMap<List<TrieContainer>,MyLinkedList<List<Pair<Integer,Integer>>>>();
+		
+		indexer = new MyLinkedList<MyMap<TrieContainer[],List<Pair<Integer,Integer>>>>();
 
 		/* Trie steup */
 		stopWordsTrie = new Trie();
@@ -67,7 +72,7 @@ public class AutoTester implements Search {
 		stopWordsContainer = new TrieContainer();
 		indexContainer = new TrieContainer();
 		mainDocContainer = new TrieContainer();
-		TrieContainer temppp = new TrieContainer();
+		TrieContainer[] wordObject;
 
 		docFile  = new File(documentFileName);
 		indexFile = new File(indexFileName);
@@ -123,7 +128,7 @@ public class AutoTester implements Search {
 				Temporary data structures for the inverted index.
 				 */
 				innerList = new ArrayList<>();
-				outerList = new ArrayList<>();
+				outerList = new MyLinkedList<>();
 
 				int index = 0;
 				/*
@@ -150,6 +155,9 @@ public class AutoTester implements Search {
 							String[] words = docLine.split(" ");
 
 							for (String word : words) {
+
+								wordObject = new TrieContainer[word.length()];
+
 
 								/* Pattern Matchers are important for checking
 								if your word has any trailing special characters.
@@ -180,19 +188,27 @@ public class AutoTester implements Search {
 												"").toLowerCase();
 
 								//System.out.println(putWord);
-								mainDocTrie.storeWords(mainDocContainer, putWord);
-								temppp =mainDocTrie.storeWords(mainDocContainer, putWord);
-								wordList.add(temppp);
+								/*Should I be calling this twice? */
+								//mainDocTrie.storeWords(mainDocContainer, putWord);
+								wordObject =mainDocTrie.storeWords(mainDocContainer, putWord);
+
+								//TODO: Figure out the Putting Logic Tomorrow
+								//TODO: Debug getStringWord
+
+
+								//code is fine till here
+								String temp=mainDocTrie.getStringWord(wordObject);
 								//this might be faulty
+								System.out.println(temp);
 								columnNumber += putWord.length() + 1;
 
 								if (mainDocTrie.isWordPresent(mainDocContainer, putWord)) {
 									innerList.add(pair);
-									outerList.add(innerList);
+									outerList.insertAtFront(innerList);
 								} else {
 									innerList = new ArrayList<>();
 									innerList.add(pair);
-									outerList.add(innerList);
+									outerList.insertAtFront(innerList);
 								}
 							}
 
@@ -220,8 +236,8 @@ public class AutoTester implements Search {
 //							outerList.add(innerList);
 //
 //							/* Might be useful? */
-//							//temppp=mainDocTrie.storeWords(mainDocContainer, word);
-//							//wordList.add(temppp);
+//							//wordObject=mainDocTrie.storeWords(mainDocContainer, word);
+//							//wordList.add(wordObject);
 //						}
 
 //						while (index< l.length()) {
@@ -231,19 +247,20 @@ public class AutoTester implements Search {
 //							} else if (l.charAt(index) == ' ') {
 //								System.out.println(sb);
 //								columnNumber++;
-////								temppp=mainDocTrie.storeWords(mainDocContainer,sb.toString());
+////								wordObject=mainDocTrie.storeWords(mainDocContainer,sb.toString());
 //							}
 //							//columnNumber++;
 //							index++;
 //						}
 			lineNumber++;
 				}
-
+				//mainDocTrie.printWordStrings(mainDocContainer,"");
 				//System.out.println(columnNumber);
+				//mainDocTrie.getWord(mainDocContainer);
 
 
 				invertedIndex.put(wordList,outerList);
-				invertedIndex.display();
+				//invertedIndex.display();
 
 				//invertedIndex.display();
 
@@ -269,7 +286,7 @@ public class AutoTester implements Search {
 
 	public static void main(String[] args) throws FileNotFoundException {
 		AutoTester autoTester = new AutoTester("files/" +
-				"shakespeare.txt","files/shakespeare-index.txt",
+				"random.txt","files/shakespeare-index.txt",
 				"files/stop-words" +
 				".txt");
 	}
