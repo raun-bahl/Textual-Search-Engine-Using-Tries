@@ -175,4 +175,20 @@ public class MyLinkedList<T> implements Iterable<T>{
         }
         System.out.println(pointer.getElement()+ "->");
     }
+
+    public boolean contains(T element) {
+        if (start == null) {
+            return false;
+        }
+
+        Node<T> node = start;
+
+        while (node != null) {
+            if (node.getElement().equals(element)) {
+                return true;
+            }
+            node = node.getLink();
+        }
+        return false;
+    }
 }

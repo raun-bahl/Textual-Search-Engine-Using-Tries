@@ -18,7 +18,7 @@ import java.util.regex.Pattern;
  */
 public class AutoTester implements Search {
 
-	Map<Integer,Integer> lol = new HashMap<>();
+	MyLinkedList<TrieContainer> containerList = new MyLinkedList<>();
 
 
 	Scanner docReader, indexReader, stopWordsReader;
@@ -62,6 +62,7 @@ public class AutoTester implements Search {
 		
 		indexer = new MyLinkedList<HashMap<TrieContainer[], MyLinkedList<Pair<Integer,Integer>>>>();
 
+
 		/* Trie steup */
 		stopWordsTrie = new Trie();
 		indexTrie = new Trie();
@@ -70,6 +71,7 @@ public class AutoTester implements Search {
 		HashMap<TrieContainer[],MyLinkedList<Pair<Integer,Integer>>> myMap = new HashMap<>();
 
 		/* TrieContainer Setup */
+		mainDocContainer = new TrieContainer();
 		stopWordsContainer = new TrieContainer();
 		indexContainer = new TrieContainer();
 		TrieContainer[] wordObject;
@@ -153,11 +155,10 @@ public class AutoTester implements Search {
 						}
 
 							String[] words = docLine.split(" ");
-							System.out.println("Here we go, boy.");
+//							System.out.println("Here we go, boy.");
 							for (String word : words) {
-								mainDocContainer = new TrieContainer();
 
-								wordObject = new TrieContainer[word.length()];
+                                wordObject = new TrieContainer[word.length()];
 
 
 								/* Pattern Matchers are important for checking
@@ -175,45 +176,48 @@ public class AutoTester implements Search {
 //
 //								}
 
-//								System.out.println(word);
-//								System.out.println(columnNumber);
-								pair = new Pair<>(0, 0);
-								pair.setLeftValue(lineNumber);
-								pair.setRightValue(columnNumber);
 
-								//System.out.println(pair.getLeftValue() + " " + pair.getRightValue());
+                                pair = new Pair<>(0, 0);
+                                pair.setLeftValue(lineNumber);
+                                pair.setRightValue(columnNumber);
 
-
-								String putWord = word
-										.replaceAll("[^a-zA-Z\\']",
-												"").toLowerCase();
-
-								//System.out.println(putWord);
-								/*Should I be calling this twice? */
-								//mainDocTrie.storeWords(mainDocContainer, putWord);
-								wordObject =mainDocTrie.storeWords(mainDocContainer, putWord);
+                                //System.out.println(pair.getLeftValue() + " " + pair.getRightValue());
 
 
-								//TODO: Figure out the Putting Logic Tomorrow
-								//TODO: Debug getStringWord
+                                String putWord = word
+                                        .replaceAll("[^a-zA-Z\\']",
+                                                "").toLowerCase();
+
+                                //System.out.println(putWord);
+                                /*Should I be calling this twice? */
+                                //mainDocTrie.storeWords(mainDocContainer, putWord);
+                                wordObject = mainDocTrie.storeWords(mainDocContainer, putWord);
 
 
-								//code is fine till here
-								String stringWord=mainDocTrie.getStringWord(wordObject);
-								//this might be faulty
-								System.out.println(stringWord);
-								columnNumber += putWord.length() + 1;
+                                //TODO: Figure out the Putting Logic Tomorrow
+                                //TODO: Debug getStringWord
 
-								if (mainDocTrie.isWordPresent(mainDocContainer, putWord)) {
-									innerList.insertAtFront(pair);
-									myMap.put(wordObject,innerList);
-									outerList.insertAtFront(myMap);
-								} else {
-									innerList = new MyLinkedList<>();
-									innerList.insertAtFront(pair);
-									myMap.put(wordObject,innerList);
-									outerList.insertAtFront(myMap);
-								}
+
+                                //code is fine till here
+                                String stringWord = mainDocTrie.getStringWord(wordObject);
+                                //this might be faulty
+                                mainDocTrie.printWordStrings(mainDocContainer, "");
+								//System.out.println(stringWord);
+                                columnNumber += putWord.length() + 1;
+
+
+                                    if (mainDocTrie.isWordPresent(mainDocContainer, putWord)) {
+                                        innerList.insertAtFront(pair);
+                                        myMap.put(wordObject, innerList);
+                                        outerList.insertAtFront(myMap);
+                                    } else {
+										innerList = new MyLinkedList<>();
+										innerList.insertAtFront(pair);
+										myMap.put(wordObject, innerList);
+										outerList.insertAtFront(myMap);
+									}
+
+
 							}
 
 					}
@@ -269,10 +273,8 @@ public class AutoTester implements Search {
 				//invertedIndex.display();
 
 				//invertedIndex.display();
-
-				mainDocTrie.printWordStrings(mainDocContainer,"");
-//				int result = wordCount("my");
-//				System.out.println(result);
+				int result = wordCount("my");
+				System.out.println(result);
 
 
 			} catch (FileNotFoundException e) {
