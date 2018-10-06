@@ -1,5 +1,7 @@
 package comp3506.assn2.utils;
 
+import java.util.HashMap;
+
 public class TrieContainer {
 
     public boolean isEnd;
@@ -15,14 +17,31 @@ public class TrieContainer {
     }
 
     public char convertToChar(TrieContainer t) {
-        for (int i =0; i< t.series.length; i++) {
-            TrieContainer n = t.series[i];
-            if (n !=  null) {
-                System.out.println(97+i);
-                ch = ((char)(97+i));
-            } else {
+
+            // we are iterating over the whole array nevertheless, this might be causing the problem.
+            for (int i = 0; i < series.length; i++) {
+                TrieContainer k = t.series[i];
+                    if (k != null) {
+                        //System.out.println(97+i);
+// It was printing it out because all of those trie containers were //
+// filled up.
+
+                        // It might be doing it because ch 97+i gets the last TrieContainer in, alphabetically arranged, so
+                        // accessing any character before the character changes to the last one.
+                        ch = ((char) (97 + i));
+//                        if (k.isEnd) {
+//                            break;
+//                        }
+                }
             }
-        }
         return ch;
     }
 }
+
+
+//    public java.util.Map<Integer,String> map;
+//
+//    public void random() {
+//        map = new HashMap<>();
+//        map.keySet()
+//    }

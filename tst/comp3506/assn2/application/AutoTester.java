@@ -28,11 +28,11 @@ public class AutoTester implements Search {
 
 	/* Data Structures for the inverted index */
 	Pair<Integer,Integer> pair;
-	List<Pair<Integer,Integer>> innerList;
-	MyLinkedList<List<Pair<Integer,Integer>>> outerList;
+	MyLinkedList<Pair<Integer,Integer>> innerList;
+	MyLinkedList<HashMap<TrieContainer[],MyLinkedList<Pair<Integer,Integer>>>> outerList;
 	List<TrieContainer> wordList = new ArrayList<>();
 
-	MyLinkedList<MyMap<TrieContainer[],List<Pair<Integer,Integer>>>> indexer;
+	MyLinkedList<HashMap<TrieContainer[],MyLinkedList<Pair<Integer,Integer>>>> indexer;
 
 	public int lineNumber=1, columnNumber;
 
@@ -59,19 +59,19 @@ public class AutoTester implements Search {
 		// TODO Implement constructor to load the data from these files and
 		// TODO setup your data structures for the application.
 
-		invertedIndex = new MyMap<List<TrieContainer>,MyLinkedList<List<Pair<Integer,Integer>>>>();
 		
-		indexer = new MyLinkedList<MyMap<TrieContainer[],List<Pair<Integer,Integer>>>>();
+		indexer = new MyLinkedList<HashMap<TrieContainer[], MyLinkedList<Pair<Integer,Integer>>>>();
 
 		/* Trie steup */
 		stopWordsTrie = new Trie();
 		indexTrie = new Trie();
 		mainDocTrie = new Trie();
 
+		HashMap<TrieContainer[],MyLinkedList<Pair<Integer,Integer>>> myMap = new HashMap<>();
+
 		/* TrieContainer Setup */
 		stopWordsContainer = new TrieContainer();
 		indexContainer = new TrieContainer();
-		mainDocContainer = new TrieContainer();
 		TrieContainer[] wordObject;
 
 		docFile  = new File(documentFileName);
@@ -127,7 +127,7 @@ public class AutoTester implements Search {
 				/*
 				Temporary data structures for the inverted index.
 				 */
-				innerList = new ArrayList<>();
+				innerList = new MyLinkedList<>();
 				outerList = new MyLinkedList<>();
 
 				int index = 0;
@@ -153,8 +153,9 @@ public class AutoTester implements Search {
 						}
 
 							String[] words = docLine.split(" ");
-
+							System.out.println("Here we go, boy.");
 							for (String word : words) {
+								mainDocContainer = new TrieContainer();
 
 								wordObject = new TrieContainer[word.length()];
 
@@ -192,27 +193,34 @@ public class AutoTester implements Search {
 								//mainDocTrie.storeWords(mainDocContainer, putWord);
 								wordObject =mainDocTrie.storeWords(mainDocContainer, putWord);
 
+
 								//TODO: Figure out the Putting Logic Tomorrow
 								//TODO: Debug getStringWord
 
 
 								//code is fine till here
-								String temp=mainDocTrie.getStringWord(wordObject);
+								String stringWord=mainDocTrie.getStringWord(wordObject);
 								//this might be faulty
-								System.out.println(temp);
+								System.out.println(stringWord);
 								columnNumber += putWord.length() + 1;
 
 								if (mainDocTrie.isWordPresent(mainDocContainer, putWord)) {
-									innerList.add(pair);
-									outerList.insertAtFront(innerList);
+									innerList.insertAtFront(pair);
+									myMap.put(wordObject,innerList);
+									outerList.insertAtFront(myMap);
 								} else {
-									innerList = new ArrayList<>();
-									innerList.add(pair);
-									outerList.insertAtFront(innerList);
+									innerList = new MyLinkedList<>();
+									innerList.insertAtFront(pair);
+									myMap.put(wordObject,innerList);
+									outerList.insertAtFront(myMap);
 								}
 							}
 
 					}
+
+					//System.out.println("We're out");
+
+
 
 
 
@@ -258,11 +266,13 @@ public class AutoTester implements Search {
 				//System.out.println(columnNumber);
 				//mainDocTrie.getWord(mainDocContainer);
 
-
-				invertedIndex.put(wordList,outerList);
 				//invertedIndex.display();
 
 				//invertedIndex.display();
+
+				mainDocTrie.printWordStrings(mainDocContainer,"");
+//				int result = wordCount("my");
+//				System.out.println(result);
 
 
 			} catch (FileNotFoundException e) {
@@ -296,9 +306,24 @@ public class AutoTester implements Search {
 	public int wordCount(String word) throws IllegalArgumentException {
 
 		int result = 0;
-		int totalWords = 0;
 
-		List<TrieContainer> iterator;
+		for (HashMap<TrieContainer[], MyLinkedList<Pair<Integer,Integer>>> hm: outerList) {
+
+			for (TrieContainer[] t: hm.keySet()) {
+
+
+				//GetStringWord needs to be fixed for this.
+				if (word.equals(mainDocTrie.getStringWord(t))) {
+
+					for (MyLinkedList<Pair<Integer,Integer>> list : hm.values()) {
+
+//						System.out.println(result);
+						result = list.getSize();
+
+					}
+				}
+			}
+		}
 
 //		if (mainDocTrie.isWordPresent(mainDocContainer,word)) {
 //			for (iterator: wordList) {
@@ -316,7 +341,8 @@ public class AutoTester implements Search {
 ////				result += wordCount(word,indexContainer.series[i]);
 //			}
 //		}
-
 		return result;
 	}
+
+
 }

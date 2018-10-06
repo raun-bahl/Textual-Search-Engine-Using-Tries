@@ -3,7 +3,7 @@ package comp3506.assn2.utils;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-public class MyLinkedList<T> {
+public class MyLinkedList<T> implements Iterable<T>{
 
     Node start;
     Node end;

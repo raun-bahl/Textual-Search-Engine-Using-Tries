@@ -15,7 +15,7 @@ public class Trie {
     char ch;
 
     public Trie() {
-        //myWord = new TrieContainer[30];
+
     }
     public TrieContainer[] storeWords(TrieContainer start, String word){
 
@@ -25,8 +25,9 @@ public class Trie {
 
         for (int j = 0; j < word.length(); j++) {
             tempChar = word.charAt(j);
+            //Since mainDocContainer has been filled up with the previous word, the following statement causes
+            // myWord[0] to fill up with the first alphabet of
             myWord[j] = start;
-
             if (tempChar == '\'') {
                 //tempChar = 'x';
                 int apostropheChar = 26;
@@ -51,6 +52,7 @@ public class Trie {
                 if (start.series[character - aint] != null) {
                     if (word.length() - 1 == j) { //if word is found till last character, then mark the end as true.
                         start.series[character - aint].isEnd = true;
+                        //myWord[j].isEnd = true;
                     }
                     start = start.series[character - aint];
                 } else {
@@ -58,6 +60,7 @@ public class Trie {
                     trie.isEnd = (word.length() - 1 == j ? true : false);
                     start.series[character - aint] = trie;
                     start = start.series[character - aint];
+
                 }
             }
         }
@@ -99,7 +102,7 @@ public class Trie {
         }
         for (int i = 0; i < start.series.length; i++) {
             TrieContainer t = start.series[i];
-            if(t!=null){
+            if(t != null){
                 printWordStrings(t, toPrint + (char)(97+i));
             }
         }
@@ -111,11 +114,47 @@ public class Trie {
         }
         StringBuilder sb = new StringBuilder();
         String returnString;
-
+        //System.out.println(word.length);
         for (int i = 0; i<word.length; i++) {
-            ch = word[i].convertToChar(word[i]);
+
+            TrieContainer n = word[i];
+            if (n != null) {
+                for (int j = 0; j < word[i].series.length; j++) {
+
+                    TrieContainer t = n.series[j];
+                    if (t == null) {
+                        continue;
+                    } else {
+                        ch = (char) (97 + j);
+                        if (t.isEnd) {
+                            break;
+                        }
+                    }
+
+                }
+            } else {
+                continue;
+            }
             sb.append(ch);
-           //System.out.println(ch);
+            }
+        returnString = sb.toString();
+        return returnString;
+    }
+
+    public String getString(TrieContainer[] word) {
+        if (word == null) {
+            return "";
+        }
+        StringBuilder sb = new StringBuilder();
+        String returnString;
+
+        for (int i=0; i< word.length; i++) {
+            TrieContainer t = word[i];
+            for (int j = 0; j < t.series.length; i++) {
+                ch = t.convertToChar(t);
+                sb.append(ch);
+                System.out.println(ch);
+            }
         }
         returnString = sb.toString();
         return returnString;
