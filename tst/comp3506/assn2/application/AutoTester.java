@@ -164,21 +164,28 @@ public class AutoTester implements Search {
 						The following code is for trailing spaces, trailing
 						characters still doesn't work though.
 						 */
-                        if (!docLine.trim().equals(docLine)) {
+						int count = docLine.indexOf(docLine.trim());
+						columnNumber = count + 1;
 
-                            int count = docLine.indexOf(docLine.trim());
-                            columnNumber = count + 1;
-                            docLine = docLine.trim();
 
-                        }
+
+                        Pattern p = Pattern.compile("\\p{Alpha}");
+                        Matcher m = p.matcher(docLine);
+
+								if (m.find()) {
+									columnNumber = m.start() + 1;
+
+								}
+
+                        docLine = docLine.trim();
+
+
 
                             //Tokenize words in a line
                             String[] words = docLine.split(" ");
 
 
                             for (String word : words) {
-
-
 
 								/* Pattern Matchers are important for checking
 								if your word has any trailing special characters.
@@ -187,13 +194,6 @@ public class AutoTester implements Search {
 								characters do not work. The Code below will
 								help you later to fix this.
 								 */
-//								Pattern p = Pattern.compile("\\p{Alpha}");
-//								Matcher m = p.matcher(word);
-//
-//								if (m.find()) {
-//									columnNumber = m.start() + 1;
-//
-//								}
 
                                 //Set coordinates
                                 pair = new Pair<>(0, 0);
@@ -207,79 +207,10 @@ public class AutoTester implements Search {
                                                 "").toLowerCase();
 
 
-                                /*Should I be calling this twice? */
-                                //mainDocTrie.storeWords(mainDocContainer, putWord);
-
-
-
-//                                    mainDocTrie.storeWords(mainDocContainer,
-//                                            putWord,pair);
-
-                                    mainDocTrie.storeWords(mainDocContainer,
+                                mainDocTrie.storeWords(mainDocContainer,
                                             putWord, pair);
 
-
-
-//                                if (mainDocTrie.isWordPresent
-//                                        (mainDocContainer,putWord)) {
-//                                    innerList.insertAtFront(pair);
-//                                    invertedIndex.put(wordObject,innerList);
-//                                } else {
-//                                    innerList = new MyLinkedList<>();
-//                                    innerList.insertAtFront(pair);
-//                                    invertedIndex.put(wordObject,innerList);
-//                                }
-
-
-								/*This is the string version of the object that
-								 goes into mainDocTrieContainer, and this
-								is  here for debugging purposes */
-//								String stringWord = mainDocTrie.getString(wordObject);
-								//System.out.println(stringWord);
-
-
                                 columnNumber += putWord.length() + 1;
-
-
-
-                                /**
-                                 * The Buggy AF Code begins
-                                 * Also, your PrintWordStrings is broken. If you
-                                 * can't find anything then see if any errors
-                                 * are related to that.
-                                 */
-
-
-                                //This requires very careful observation
-                                //containerList.insertAtFront(mainDocContainer);
-
-                                //Hmmm
-//                                for (TrieContainer t: containerList) {
-//                                    mainDocTrie.printWordStrings(t,"");
-//                                }
-
-                                /*
-                                So as of now, I'm making a new Trie Container
-                                 for every word iteration and adding it to a
-                                 Container List above. I don't know if this is
-                                 a good idea or not, and I should really
-                                 think about the implications of my design
-                                 choices.
-
-                                 */
-//                                    if (mainDocTrie.isWordPresent(mainDocContainer,
-//                                            putWord)) {
-//                                        //System.out.println("yeet");
-//                                        innerList.insertAtFront(pair);
-//                                        myMap.put(wordObject, innerList);
-//                                        outerList.insertAtFront(myMap);
-//                                    } else {
-//                                        innerList = new MyLinkedList<>();
-//                                        innerList.insertAtFront(pair);
-//                                        myMap.put(wordObject, innerList);
-//                                        outerList.insertAtFront(myMap);
-//                                    }
-
                             }
 
                     }
@@ -289,11 +220,11 @@ public class AutoTester implements Search {
 
                 System.out.println("Data Structures Loaded!");
 
-                int count = wordCount("fortify");
-                System.out.println(count);
+//                int count = wordCount("");
+//                System.out.println(count);
 
-//                phraseOccurrence("fortify");
-//                int count = wordCount("kill");
+                phraseOccurrence("this");
+//                int count = wordCount("hey");
 //                System.out.println(count);
 //				int result = wordCount("hello");
 //				System.out.println(result);
@@ -316,7 +247,7 @@ public class AutoTester implements Search {
 
     public static void main(String[] args) throws FileNotFoundException {
         AutoTester autoTester = new AutoTester("files/" +
-                "shakespeare.txt", "files/shakespeare-index.txt",
+                "random.txt", "files/shakespeare-index.txt",
                 "files/stop-words" +
                         ".txt");
     }
@@ -325,6 +256,9 @@ public class AutoTester implements Search {
     @Override
     public int wordCount(String word) throws IllegalArgumentException {
 
+        if (word.isEmpty() || word == null) {
+            throw new IllegalArgumentException("Word is null.");
+        }
         int result;
 
            result = mainDocTrie.wordCount(mainDocContainer, word);
@@ -337,20 +271,46 @@ public class AutoTester implements Search {
 
 
         List<Pair<Integer,Integer>> positionalList = new ArrayList<>();
+
+        List<Pair<Integer,Integer>> helperList = new ArrayList<>();
+
+        List<Pair<Integer,Integer>> helperList2 = new ArrayList<>();
+
 		/*
 		Please keep in mind that you need to tokenize the phrase here as well.
 		 */
-		String[] words = phrase.split(" ");
+		String[] phraseToken = phrase.split(" ");
 		//This case is only for 1 word
-		if (words.length == 1) {
-           positionalList = mainDocTrie.returnList(mainDocContainer,words[0],
+		if (phraseToken.length == 1) {
+           positionalList = mainDocTrie.returnList(mainDocContainer,
+                   phraseToken[0],
                    positionalList);
+
+            for (Pair<Integer,Integer> pair : positionalList) {
+                System.out.println("(" + pair.getLeftValue() + "," + pair
+                        .getRightValue() + ")");
+            }
+
+            return positionalList;
+        } else {
+
+		    positionalList = mainDocTrie.returnList(mainDocContainer,
+                    phraseToken[0], positionalList);
+		    helperList = mainDocTrie.returnList(mainDocContainer,
+                    phraseToken[1], helperList);
+
+		    for (int i =0; i< positionalList.size(); i++) {
+		        if (helperList.get(i).getRightValue().equals(positionalList.get(i).getRightValue()+phraseToken[0].length() + 1)) {
+                    //helperList2.add(helperList.get(i));
+                    helperList2.add(positionalList.get(i));
+                }
+            }
         }
 
-        for (Pair<Integer,Integer> pair : positionalList) {
+        for (Pair<Integer,Integer> pair : helperList2) {
 		    System.out.println("(" + pair.getLeftValue()+","+pair
                     .getRightValue()+")");
         }
-        return positionalList;
+        return helperList2;
     }
 }
