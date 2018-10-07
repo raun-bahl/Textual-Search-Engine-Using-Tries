@@ -170,7 +170,7 @@ public class AutoTester implements Search {
                             columnNumber = count + 1;
                             docLine = docLine.trim();
 
-                        } 
+                        }
 
                             //Tokenize words in a line
                             String[] words = docLine.split(" ");
@@ -287,7 +287,12 @@ public class AutoTester implements Search {
                     lineNumber++;
                 }
 
-                mainDocTrie.returnList(mainDocContainer);
+                System.out.println("Data Structures Loaded!");
+
+                int count = wordCount("fortify");
+                System.out.println(count);
+
+//                phraseOccurrence("fortify");
 //                int count = wordCount("kill");
 //                System.out.println(count);
 //				int result = wordCount("hello");
@@ -311,7 +316,7 @@ public class AutoTester implements Search {
 
     public static void main(String[] args) throws FileNotFoundException {
         AutoTester autoTester = new AutoTester("files/" +
-                "random.txt", "files/shakespeare-index.txt",
+                "shakespeare.txt", "files/shakespeare-index.txt",
                 "files/stop-words" +
                         ".txt");
     }
@@ -320,63 +325,32 @@ public class AutoTester implements Search {
     @Override
     public int wordCount(String word) throws IllegalArgumentException {
 
-        int result = 0;
+        int result;
 
-        for (TrieContainer[] t: invertedIndex.keySet()) {
-            if (word.equals(mainDocTrie.getString(t))) {
-                Iterator iterator = invertedIndex.values().iterator();
-                while (iterator.hasNext()) {
+           result = mainDocTrie.wordCount(mainDocContainer, word);
 
-                    result += invertedIndex.values().size();
-                    iterator.next();
-                }
-            }
-        }
         return result;
-
-//        for (HashMap<TrieContainer[], MyLinkedList<Pair<Integer, Integer>>> hm : outerList) {
-//
-//            for (TrieContainer[] t : hm.keySet()) {
-//
-//
-//                //GetStringWord needs to be fixed for this.
-//                if (word.equals(mainDocTrie.getStringWord(t))) {
-//
-//                    for (MyLinkedList<Pair<Integer, Integer>> list : hm.values()) {
-//
-////						System.out.println(result);
-//                        result = list.getSize();
-//
-//                    }
-//                }
-//            }
-//        }
     }
 
     @Override
     public List<Pair<Integer, Integer>> phraseOccurrence(String phrase) throws IllegalArgumentException {
 
 
+        List<Pair<Integer,Integer>> positionalList = new ArrayList<>();
 		/*
 		Please keep in mind that you need to tokenize the phrase here as well.
 		 */
-        for (HashMap<TrieContainer[], MyLinkedList<Pair<Integer, Integer>>> hm : outerList) {
-
-            for (TrieContainer[] t : hm.keySet()) {
-
-
-                //GetStringWord needs to be fixed for this.
-                if (phrase.equals(mainDocTrie.getStringWord(t))) {
-                    for (MyLinkedList<Pair<Integer, Integer>> list : hm.values()) {
-
-                        for (Pair<Integer, Integer> pair : list) {
-                            System.out.println(pair.getLeftValue() + " " + pair.getRightValue());
-                        }
-
-                    }
-                }
-            }
+		String[] words = phrase.split(" ");
+		//This case is only for 1 word
+		if (words.length == 1) {
+           positionalList = mainDocTrie.returnList(mainDocContainer,words[0],
+                   positionalList);
         }
-        return null;
+
+        for (Pair<Integer,Integer> pair : positionalList) {
+		    System.out.println("(" + pair.getLeftValue()+","+pair
+                    .getRightValue()+")");
+        }
+        return positionalList;
     }
 }

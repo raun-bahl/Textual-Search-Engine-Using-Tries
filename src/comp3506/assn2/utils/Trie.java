@@ -1,6 +1,7 @@
 package comp3506.assn2.utils;
 
 import java.io.*;
+import java.util.List;
 
 public class Trie {
 
@@ -66,7 +67,7 @@ public class Trie {
                         start = start.series[character - aint];
                     }
                 }
-                start.linkedList.insertAtFront(location);
+                start.linkedList.insertAtBack(location);
             }
 
     }
@@ -91,16 +92,65 @@ public class Trie {
         }
     }
 
-    public void returnList(TrieContainer start) {
-        for (int i=0; i< start.series.length; i++) {
+    public List<Pair<Integer,Integer>> returnList(TrieContainer
+                                                                    start,
+                                                          String word,
+                                                          List<Pair<Integer,
+                                                                  Integer>>
+                                                                  pairList) {
+        int count = 0;
+        for (int i=0; i< word.length(); i++) {
+            char ch = word.charAt(i);
             TrieContainer t = start.series[i];
-            if (t != null) {
-                for (Pair<Integer,Integer> pair: t.linkedList) {
-                    System.out.println(pair.getLeftValue() + " " + pair.getRightValue());
+//            if (t != null) {
+//                for (Pair<Integer,Integer> pair: t.linkedList) {
+//                    System.out.println(pair.getLeftValue() + " " + pair.getRightValue());
+//                }
+//                System.out.println("That was a word");
+//            }
+
+            if (start.series[ch-97] != null) {
+                if (word.length()-1 != i) {
+                    start = start.series[ch-97];
+                } else {
+                    if (start.series[ch-97].isEnd) {
+                        for (Pair<Integer,Integer> pair : start.series[ch-97]
+                                .linkedList) {
+                            pairList.add(pair);
+                        }
+                    }
                 }
-                System.out.println("end of list");
             }
         }
+        return pairList;
+    }
+
+    public int wordCount(TrieContainer start,String word) {
+        int count = 0;
+
+        for (int i=0; i< word.length(); i++) {
+            char ch = word.charAt(i);
+
+            TrieContainer t = start.series[i];
+
+//            if (t != null && ) { // and t (word) equals the string
+//                // word given.
+//                count = t.linkedList.size;
+//            }
+
+            if (start.series[ch-97] != null) {
+                if (word.length() - 1 != i) {
+                    start = start.series[ch-97];
+                } else {
+                    if (start.series[ch-97].isEnd) {
+                        count = start.series[ch-97].linkedList.size;
+                    }
+                }
+            }
+
+            // or if t matches the word, break loop.
+        }
+        return count;
     }
 
     public boolean isWordPresent(TrieContainer start, String word){
@@ -137,38 +187,25 @@ public class Trie {
         }
         for (int i = 0; i < start.series.length; i++) {
             TrieContainer t = start.series[i];
-            if(t != null){
+            if(t != null) {
                 printWordStrings(t, toPrint + (char)(97+i));
             }
         }
     }
 
-    public String getStringWord(TrieContainer[] word) {
+    public String getStringWord(TrieContainer word) {
         if (word == null) {
             return "";
         }
         StringBuilder sb = new StringBuilder();
         String returnString;
         //System.out.println(word.length);
-        for (int i = 0; i<word.length; i++) {
+        for (int i = 0; i<word.series.length; i++) {
 
-            TrieContainer n = word[i];
+            TrieContainer n = word.series[i];
+
             if (n != null) {
-                for (int j = 0; j < word[i].series.length; j++) {
-
-                    TrieContainer t = n.series[j];
-                    if (t == null) {
-                        continue;
-                    } else {
-                        ch = (char) (97 + j);
-                        if (t.isEnd) {
-                            break;
-                        }
-                    }
-
-                }
-            } else {
-                continue;
+                ch = (char) (97 + i);
             }
             sb.append(ch);
             }
