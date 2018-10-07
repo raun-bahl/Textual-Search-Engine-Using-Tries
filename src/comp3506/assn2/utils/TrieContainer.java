@@ -8,13 +8,20 @@ public class TrieContainer {
     char ch;
     public TrieContainer[] series = new TrieContainer[27];
 
+    MyLinkedList<Pair<Integer,Integer>> linkedList;
+
     public TrieContainer() {
         isEnd = false;
+
+        //linkedList = new MyLinkedList<>();
 
         for (int i = 0; i < 27; i++) {
             series[i] = null;
         }
+
+        linkedList = new MyLinkedList<>();
     }
+
 
     public char convertToChar(TrieContainer t) {
 

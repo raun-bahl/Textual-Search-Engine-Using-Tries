@@ -17,56 +17,91 @@ public class Trie {
     public Trie() {
 
     }
-    public TrieContainer[] storeWords(TrieContainer start, String word){
+    public void storeWords(TrieContainer start, String word, Pair<Integer,
+            Integer> location){
 
+        start.linkedList = new MyLinkedList<>();
         myWord = new TrieContainer[word.length()];
-        char tempChar, character;
-        int aint = (int)'a';
 
-        for (int j = 0; j < word.length(); j++) {
-            tempChar = word.charAt(j);
-            //Since mainDocContainer has been filled up with the previous word, the following statement causes
-            // myWord[0] to fill up with the first alphabet of
-            myWord[j] = start;
-            if (tempChar == '\'') {
-                //tempChar = 'x';
-                int apostropheChar = 26;
-                if (start.series[apostropheChar] != null) {
-                    if (word.length() - 1 == j) {
-                        start.series[apostropheChar].isEnd = true;
-                    }
-                    start = start.series[apostropheChar];
-                } else {
-                    TrieContainer trie = new TrieContainer();
-                    trie.isEnd = (word.length() - 1 == j ? true : false);
-                    start.series[apostropheChar] = trie;
-                    start = start.series[apostropheChar];
-                    temp++;
-                }
-            } else {
-                character = Character.toLowerCase(tempChar);
-                //In series, check the position of character,
-                //if it is already filled then check the series of filled Trie object.
-                //if it is not filled then create new TrieContainer object and place it at correct position, and check
-                //if it is end of the word, then mark isEnd = true or else false;
-                if (start.series[character - aint] != null) {
-                    if (word.length() - 1 == j) { //if word is found till last character, then mark the end as true.
-                        start.series[character - aint].isEnd = true;
-                        //myWord[j].isEnd = true;
-                    }
-                    start = start.series[character - aint];
-                } else {
-                    TrieContainer trie = new TrieContainer();
-                    trie.isEnd = (word.length() - 1 == j ? true : false);
-                    start.series[character - aint] = trie;
-                    start = start.series[character - aint];
+            char tempChar, character;
+            int aint = (int) 'a';
 
+            for (int j = 0; j < word.length(); j++) {
+                tempChar = word.charAt(j);
+                //Since mainDocContainer has been filled up with the previous word, the following statement causes
+                // myWord[0] to fill up with the first alphabet of
+                myWord[j] = start;
+                if (tempChar == '\'') {
+                    //tempChar = 'x';
+                    int apostropheChar = 26;
+                    if (start.series[apostropheChar] != null) {
+                        if (word.length() - 1 == j) {
+                            start.series[apostropheChar].isEnd = true;
+                        }
+                        start = start.series[apostropheChar];
+                    } else {
+                        TrieContainer trie = new TrieContainer();
+                        trie.isEnd = (word.length() - 1 == j ? true : false);
+                        start.series[apostropheChar] = trie;
+                        start = start.series[apostropheChar];
+                        temp++;
+                    }
+                } else {
+                    character = Character.toLowerCase(tempChar);
+                    //In series, check the position of character,
+                    //if it is already filled then check the series of filled Trie object.
+                    //if it is not filled then create new TrieContainer object and place it at correct position, and check
+                    //if it is end of the word, then mark isEnd = true or else false;
+                    if (start.series[character - aint] != null) {
+                        if (word.length() - 1 == j) { //if word is found till last character, then mark the end as true.
+                            start.series[character - aint].isEnd = true;
+
+                        }
+
+                        start = start.series[character - aint];
+                    } else {
+                        TrieContainer trie = new TrieContainer();
+                        trie.isEnd = (word.length() - 1 == j ? true : false);
+                        start.series[character - aint] = trie;
+                        start = start.series[character - aint];
+                    }
                 }
+                start.linkedList.insertAtFront(location);
             }
-        }
-        return myWord;
+
     }
 
+
+    public void addToList(TrieContainer start, Pair<Integer,
+            Integer>
+            location) {
+
+        if (start == null) {
+            return;
+        }
+        for (int i = 0; i< start.series.length; i++) {
+            TrieContainer t = start.series[i];
+            if (t != null) {
+                    t.linkedList.insertAtFront(location);
+
+            } else {
+                continue;
+
+            }
+        }
+    }
+
+    public void returnList(TrieContainer start) {
+        for (int i=0; i< start.series.length; i++) {
+            TrieContainer t = start.series[i];
+            if (t != null) {
+                for (Pair<Integer,Integer> pair: t.linkedList) {
+                    System.out.println(pair.getLeftValue() + " " + pair.getRightValue());
+                }
+                System.out.println("end of list");
+            }
+        }
+    }
 
     public boolean isWordPresent(TrieContainer start, String word){
         boolean isFound = true;
