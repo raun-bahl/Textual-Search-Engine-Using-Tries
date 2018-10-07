@@ -4,9 +4,8 @@
     <list default="true" id="c7a36541-8336-4793-9977-3de5aca2c8eb" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/files/random.txt" afterPath="$PROJECT_DIR$/files/random.txt" />
-      <change beforePath="$PROJECT_DIR$/out/test/provided_code/comp3506/assn2/application/AutoTester.class" afterPath="$PROJECT_DIR$/out/test/provided_code/comp3506/assn2/application/AutoTester.class" />
-      <change beforePath="$PROJECT_DIR$/src/comp3506/assn2/utils/Trie.java" afterPath="$PROJECT_DIR$/src/comp3506/assn2/utils/Trie.java" />
-      <change beforePath="$PROJECT_DIR$/src/comp3506/assn2/utils/TrieContainer.java" afterPath="$PROJECT_DIR$/src/comp3506/assn2/utils/TrieContainer.java" />
+      <change beforePath="$PROJECT_DIR$/out/production/provided_code/comp3506/assn2/utils/Trie.class" afterPath="$PROJECT_DIR$/out/production/provided_code/comp3506/assn2/utils/Trie.class" />
+      <change beforePath="$PROJECT_DIR$/out/production/provided_code/comp3506/assn2/utils/TrieContainer.class" afterPath="$PROJECT_DIR$/out/production/provided_code/comp3506/assn2/utils/TrieContainer.class" />
       <change beforePath="$PROJECT_DIR$/tst/comp3506/assn2/application/AutoTester.java" afterPath="$PROJECT_DIR$/tst/comp3506/assn2/application/AutoTester.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -19,11 +18,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="AutoTester.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="AutoTester.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/tst/comp3506/assn2/application/AutoTester.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="198">
-              <caret line="104" column="0" lean-forward="false" selection-start-line="104" selection-start-column="0" selection-end-line="104" selection-end-column="0" />
+            <state relative-caret-position="272">
+              <caret line="172" column="26" lean-forward="false" selection-start-line="172" selection-start-column="26" selection-end-line="172" selection-end-column="26" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -91,10 +90,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Trie.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Trie.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/comp3506/assn2/utils/Trie.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="408">
+            <state relative-caret-position="1500">
               <caret line="100" column="50" lean-forward="false" selection-start-line="100" selection-start-column="16" selection-end-line="100" selection-end-column="50" />
               <folding />
             </state>
@@ -157,9 +156,9 @@
         <option value="$PROJECT_DIR$/src/comp3506/assn2/utils/Node.java" />
         <option value="$PROJECT_DIR$/src/comp3506/assn2/application/Search.java" />
         <option value="$PROJECT_DIR$/src/comp3506/assn2/utils/MyLinkedList.java" />
-        <option value="$PROJECT_DIR$/tst/comp3506/assn2/application/AutoTester.java" />
         <option value="$PROJECT_DIR$/src/comp3506/assn2/utils/TrieContainer.java" />
         <option value="$PROJECT_DIR$/src/comp3506/assn2/utils/Trie.java" />
+        <option value="$PROJECT_DIR$/tst/comp3506/assn2/application/AutoTester.java" />
       </list>
     </option>
   </component>
@@ -422,7 +421,7 @@
       <workItem from="1538524368568" duration="26201000" />
       <workItem from="1538627167380" duration="38057000" />
       <workItem from="1538795636564" duration="10136000" />
-      <workItem from="1538873318454" duration="4354000" />
+      <workItem from="1538873318454" duration="4588000" />
     </task>
     <task id="LOCAL-00001" summary="Algorithms and Data Structures base files, code provided.">
       <created>1537145916563</created>
@@ -564,11 +563,18 @@
       <option name="project" value="LOCAL" />
       <updated>1538808193063</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="&quot;I guess the indexing works perfectly now? I will test some more cases. But&#10;dude this nodal linked list works so much better than all of my previous im-&#10;plementations. &quot;">
+      <created>1538877872933</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1538877872933</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="150590000" />
+    <option name="totallyTimeSpent" value="150824000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
@@ -660,7 +666,8 @@
     <MESSAGE value="&quot;Node and LinkedList implementation&quot;" />
     <MESSAGE value="&quot;A very taxing, problem-solving-esque commit&quot;" />
     <MESSAGE value="&quot;Very ugly code, tons of design problems, I hate myself. Implemented a wordCount.&#10;Revert to this commit if the List&lt;TrieContainers&gt; goes awry.&quot;" />
-    <option name="LAST_COMMIT_MESSAGE" value="&quot;Very ugly code, tons of design problems, I hate myself. Implemented a wordCount.&#10;Revert to this commit if the List&lt;TrieContainers&gt; goes awry.&quot;" />
+    <MESSAGE value="&quot;I guess the indexing works perfectly now? I will test some more cases. But&#10;dude this nodal linked list works so much better than all of my previous im-&#10;plementations. &quot;" />
+    <option name="LAST_COMMIT_MESSAGE" value="&quot;I guess the indexing works perfectly now? I will test some more cases. But&#10;dude this nodal linked list works so much better than all of my previous im-&#10;plementations. &quot;" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1005,16 +1012,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tst/comp3506/assn2/application/AutoTester.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="104" column="0" lean-forward="false" selection-start-line="104" selection-start-column="0" selection-end-line="104" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/comp3506/assn2/utils/TrieContainer.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="105">
@@ -1025,9 +1022,19 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/comp3506/assn2/utils/Trie.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="408">
+        <state relative-caret-position="1500">
           <caret line="100" column="50" lean-forward="false" selection-start-line="100" selection-start-column="16" selection-end-line="100" selection-end-column="50" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tst/comp3506/assn2/application/AutoTester.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="172" column="26" lean-forward="false" selection-start-line="172" selection-start-column="26" selection-end-line="172" selection-end-column="26" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

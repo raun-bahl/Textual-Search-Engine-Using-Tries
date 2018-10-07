@@ -170,7 +170,7 @@ public class AutoTester implements Search {
                             columnNumber = count + 1;
                             docLine = docLine.trim();
 
-                        } else {
+                        } 
 
                             //Tokenize words in a line
                             String[] words = docLine.split(" ");
@@ -281,7 +281,7 @@ public class AutoTester implements Search {
 //                                    }
 
                             }
-                        }
+
                     }
 
                     lineNumber++;
