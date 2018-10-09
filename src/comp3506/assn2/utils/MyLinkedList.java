@@ -3,7 +3,7 @@ package comp3506.assn2.utils;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-public class MyLinkedList<T> implements Iterable<T>{
+public class MyLinkedList<T> implements Iterable<T> {
 
     Node start;
     Node end;
@@ -66,7 +66,8 @@ public class MyLinkedList<T> implements Iterable<T>{
      * @return the iterating oject
      */
    //Does making this not an override cause any problemos?
-    public java.util.Iterator iterator() {
+    @Override
+    public java.util.Iterator<T> iterator() {
         return new ListIterator();
 
     }
@@ -190,5 +191,24 @@ public class MyLinkedList<T> implements Iterable<T>{
             node = node.getLink();
         }
         return false;
+    }
+
+    public T get(int index) {
+
+        if (index<0) {
+            return null;
+        }
+        Node<T> current = null;
+        if (start != null) {
+            current = start.getLink();
+            for (int i=0; i<index; i++) {
+                if (current.getLink() == null) {
+                    return null;
+                }
+                current = current.getLink();
+            }
+            return current.getElement();
+        }
+        return null;
     }
 }

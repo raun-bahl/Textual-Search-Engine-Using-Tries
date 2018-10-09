@@ -1,7 +1,9 @@
 package comp3506.assn2.application;
 
 import comp3506.assn2.utils.*;
+import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 
+import javax.swing.text.InternationalFormatter;
 import java.io.*;
 import java.util.*;
 import java.util.regex.Matcher;
@@ -160,26 +162,51 @@ public class AutoTester implements Search {
                                         "");
                     } else {
 
-						/*
-						The following code is for trailing spaces, trailing
-						characters still doesn't work though.
-						 */
-						int count = docLine.indexOf(docLine.trim());
-						columnNumber = count + 1;
-
-
-
                         Pattern p = Pattern.compile("\\p{Alpha}");
                         Matcher m = p.matcher(docLine);
 
-								if (m.find()) {
-									columnNumber = m.start() + 1;
+                        if (m.find()) {
+                            //          System.out.println("Trailing characters: " +  m
+                            //                .start());
+                            columnNumber = m.start() + 1;
+                        }
 
-								}
+//                        int count = docLine.indexOf(docLine.trim());
+                        int count = docLine.indexOf(docLine.trim());
+                        columnNumber = count +1 ;
 
+                       // System.out.println("Trailing spaces:" + count);
+
+                        // Trailing special characters
                         docLine = docLine.trim();
 
+                        int count2 = (docLine.length()-docLine.replaceAll
+                                ("\\s+"," ").length());
 
+                   //     System.out.println("For replacing extra spaces: " +
+                    //            count2);
+
+//                        int count1 = docLine.length() - docLine.replaceAll
+//                                ("[^a-zA-Z\\']",
+//                                        "").toLowerCase().length();
+//
+//                        columnNumber += count1;
+//
+//                        System.out.println(count1);
+//                        int nullSpace = docLine.split(" ").length;
+//                        columnNumber += nullSpace;
+
+
+                        columnNumber+= count2;
+
+                        docLine = docLine.replaceAll("[^a-zA-Z\\']", " ");
+
+                        int temp = docLine.length()-docLine.replaceAll
+                                ("[^a-zA-Z\\']", " ").length();
+
+                        columnNumber += temp;
+
+                        //System.out.println(docLine);
 
                             //Tokenize words in a line
                             String[] words = docLine.split(" ");
@@ -201,16 +228,20 @@ public class AutoTester implements Search {
                                 pair.setRightValue(columnNumber);
 
 
-                                //Remove redundant punctuation
-                                String putWord = word
-                                        .replaceAll("[^a-zA-Z\\']",
-                                                "").toLowerCase();
+//                                //Remove redundant punctuation
+//                                String putWord = word
+//                                        .replaceAll("[^a-zA-Z\\']",
+//                                                "").toLowerCase();
+//
+//                                int temp = word.length()-word.replaceAll
+//                                        ("[^a-zA-Z\\']", " ").length();
 
 
                                 mainDocTrie.storeWords(mainDocContainer,
-                                            putWord, pair);
+                                            word, pair);
 
-                                columnNumber += putWord.length() + 1;
+//                                columnNumber += temp;
+                                columnNumber += word.length() + 1;
                             }
 
                     }
@@ -218,12 +249,14 @@ public class AutoTester implements Search {
                     lineNumber++;
                 }
 
-                System.out.println("Data Structures Loaded!");
+                System.out.println("Data Structures Loaded! \n");
 
 //                int count = wordCount("");
 //                System.out.println(count);
 
-                phraseOccurrence("this");
+//                phraseOccurrence("hey what up yo");
+
+                prefixOccurrence("attent");
 //                int count = wordCount("hey");
 //                System.out.println(count);
 //				int result = wordCount("hello");
@@ -247,7 +280,7 @@ public class AutoTester implements Search {
 
     public static void main(String[] args) throws FileNotFoundException {
         AutoTester autoTester = new AutoTester("files/" +
-                "random.txt", "files/shakespeare-index.txt",
+                "shakespeare.txt", "files/shakespeare-index.txt",
                 "files/stop-words" +
                         ".txt");
     }
@@ -257,8 +290,9 @@ public class AutoTester implements Search {
     public int wordCount(String word) throws IllegalArgumentException {
 
         if (word.isEmpty() || word == null) {
-            throw new IllegalArgumentException("Word is null.");
+            throw new IllegalArgumentException();
         }
+
         int result;
 
            result = mainDocTrie.wordCount(mainDocContainer, word);
@@ -269,12 +303,19 @@ public class AutoTester implements Search {
     @Override
     public List<Pair<Integer, Integer>> phraseOccurrence(String phrase) throws IllegalArgumentException {
 
+        if (phrase.isEmpty() || phrase == null) {
+            throw new IllegalArgumentException();
+        }
 
+        //Copy the results into this
         List<Pair<Integer,Integer>> positionalList = new ArrayList<>();
 
-        List<Pair<Integer,Integer>> helperList = new ArrayList<>();
+        MyLinkedList<Pair<Integer,Integer>> positionList = new MyLinkedList<>();
+        MyLinkedList<Pair<Integer,Integer>> helperList = new MyLinkedList<>();
+        MyLinkedList<Pair<Integer,Integer>> finalList = new MyLinkedList<>();
 
-        List<Pair<Integer,Integer>> helperList2 = new ArrayList<>();
+        MyLinkedList<Pair<Integer,Integer>> lolList = new MyLinkedList<>();
+
 
 		/*
 		Please keep in mind that you need to tokenize the phrase here as well.
@@ -282,35 +323,273 @@ public class AutoTester implements Search {
 		String[] phraseToken = phrase.split(" ");
 		//This case is only for 1 word
 		if (phraseToken.length == 1) {
-           positionalList = mainDocTrie.returnList(mainDocContainer,
-                   phraseToken[0],
-                   positionalList);
+           positionList = mainDocTrie.returnList(mainDocContainer,
+                   phraseToken[0]);
 
-            for (Pair<Integer,Integer> pair : positionalList) {
-                System.out.println("(" + pair.getLeftValue() + "," + pair
-                        .getRightValue() + ")");
+//            for (Pair<Integer,Integer> pair : positionList) {
+//                System.out.println("(" + pair.getLeftValue() + "," + pair
+//                        .getRightValue() + ")");
+//            }
+
+            Iterator<Pair<Integer, Integer>> pairIterator = positionList
+                    .iterator();
+
+            while (pairIterator.hasNext()) {
+
+                System.out.println("(" + pairIterator.next().getLeftValue() +
+                        "," + pairIterator.next().getRightValue() + ")");
+
+                Pair<Integer,Integer> pair = new Pair<>(pairIterator.next()
+                        .getLeftValue(),pairIterator.next().getRightValue());
+                positionalList.add(pair);
             }
 
             return positionalList;
+
+
         } else {
+		    boolean flag = true;
+//           for (Pair<Integer,Integer> pair: positionList) {
+//               System.out.println(pair.getLeftValue() + " " + pair.getRightValue());
+//           }
 
-		    positionalList = mainDocTrie.returnList(mainDocContainer,
-                    phraseToken[0], positionalList);
-		    helperList = mainDocTrie.returnList(mainDocContainer,
-                    phraseToken[1], helperList);
+//            List<String> wordsList = new ArrayList<>();
+//
+//            for (String word: phraseToken) {
+//                wordsList.add(word);
 
-		    for (int i =0; i< positionalList.size(); i++) {
-		        if (helperList.get(i).getRightValue().equals(positionalList.get(i).getRightValue()+phraseToken[0].length() + 1)) {
-                    //helperList2.add(helperList.get(i));
-                    helperList2.add(positionalList.get(i));
-                }
+            for (int i=0; i< phraseToken.length-1; i++) {
+
+                StringBuilder sb = new StringBuilder();
+
+                    //Create a string of phraseToken[i] + phraseToken[i+1]
+                    positionList = mainDocTrie.returnList(mainDocContainer,
+                            phraseToken[i]);
+                    helperList = mainDocTrie.returnList(mainDocContainer,
+                            phraseToken[i + 1]);
+
+                    for (Pair<Integer, Integer> word2Pair : helperList) {
+
+                        for (Pair<Integer, Integer> word1Pair : positionList) {
+
+                            if (word2Pair.getRightValue().equals(word1Pair
+                                    .getRightValue() + phraseToken[i].length() +
+                                    1) &&
+                                    word2Pair.getLeftValue().equals(word1Pair
+                                            .getLeftValue())) {
+                                //Don't add it yet, check further loops
+//                                Pair<Integer, Integer> pair = new Pair<>(word1Pair
+//                                        .getLeftValue(), word1Pair.getRightValue());
+//                                finalList.insertAtBack(pair);
+                                // if they are together, pass the two lists
+                                // in a function, which  will basically
+                                // ensure that the following characters are
+                                // good to go. basically pass the lists with
+                                // phraseToken[i+1] and phraseToken[i+2], if
+                                // that is good then go forward, do recursion
+                                // with the breaking conditon as that if if
+                                // the phraseToken is the last one maybe? or
+                                // like if i actually has reached it's limit.
+                                continue;
+                            } else {
+                                flag = false;
+                                break;
+                            }
+                        }
+                    }
             }
-        }
 
-        for (Pair<Integer,Integer> pair : helperList2) {
+//            }
+
+//            for (int i=0; i< helperList.getSize(); i++) {
+//
+//                for (int j = 0; j < positionList.getSize(); j++) {
+//
+////                    System.out.println(positionList.get(j).);
+//                    System.out.println(positionList.get(j).getRightValue());
+//
+//                    if (helperList.get(i).getRightValue().equals(positionList
+//                            .get(j).getRightValue()+phraseToken[0] + 1)) {
+//
+//
+//
+//                        Pair<Integer,Integer> pair = new Pair<>
+//                                (positionList.get(j).getLeftValue(),
+//                                        positionList.get(j).getRightValue());
+//                        finalList.insertAtBack(pair);
+//
+//                    }
+//
+//                }
+//            }
+
+            //Now wordsList contains all words
+
+
+
+
+//            for (Iterator<Pair<Integer,Integer>> pairIterator2 = helperList
+//                    .iterator() ; pairIterator2.hasNext();) {
+//                for (Iterator<Pair<Integer,Integer>> pairIterator1 =
+//                     positionList.iterator() ; pairIterator1.hasNext();) {
+//
+//                    System.out.println(pairIterator2.next().getLeftValue() +
+//                            " " + pairIterator2.next().getRightValue());
+//
+//                    if (pairIterator2.next().getRightValue().equals
+//                            (pairIterator1.next().getRightValue()
+//                                    +phraseToken[0] + 1)) {
+
+//
+//                    }
+//                }
+//            }
+
+//
+//		    for (Pair<Integer,Integer> pair: positionalList && Pair<Integer,
+//            Integer> pair1 : helperList) {
+//
+//            }
+            //List sizing issue here, might be causing the size issue as well
+            // . Because the two lists have different sizes
+//
+
+
+
+
+
+//            while (pairIterator2.hasNext()) {
+//
+//                if (!pairIterator1.next().getLeftValue().equals
+//                        (pairIterator2.next().getLeftValue())) {
+//
+//                    if (pairIterator2.next().getLeftValue() <
+//                            pairIterator1.next().getRightValue()) {
+//
+//                        pairIterator2.next();
+//                    } else {
+//                        pairIterator1.next();
+//                    }
+//                } else {
+//
+//                    Pair<Integer,Integer> firstWordPair = pairIterator1.next();
+//                    Pair<Integer,Integer> secondWordPair = pairIterator2.next();
+//
+
+//
+//                        finalList.insertAtBack(pair);
+//                    }
+//                }
+
+
+
+//
+//                if (!(pairIterator1.next().getLeftValue().equals
+//                        (pairIterator2.next().getLeftValue()))) {
+//
+//                    if (positionList.getSize() < helperList.getSize()) {
+//
+//                        pairIterator2.next();
+//                        if (firstWordPair.getLeftValue().equals
+//                                (secondWordPair.getLeftValue())) {
+//
+
+//                        }
+//
+//                    } else {
+//                        pairIterator1.next();
+//                    }
+//                    else {
+//                        if (firstWordPair.getLeftValue().equals
+//                                (secondWordPair.getLeftValue())) {
+//
+//                            if (secondWordPair.getRightValue().equals
+//                                    (firstWordPair.getRightValue() +
+//                                            phraseToken[0].length() + 1)) {
+//
+
+//                            }
+//                        }
+//                    }
+//                }
+
+//                if (firstWordPair.getLeftValue().equals
+//                        (secondWordPair.getLeftValue())) {
+//
+//                    if (secondWordPair.getRightValue().equals
+//                            (firstWordPair.getRightValue() +
+//                                    phraseToken[0].length() + 1)) {
+//
+//                        Pair<Integer,Integer> pair = new Pair<>
+//                                (firstWordPair.getLeftValue(),
+//                                        firstWordPair.getRightValue());
+//                        finalList.insertAtBack(pair);
+//                    }
+//                }
+
+
+//
+//            if (helperList.size() < positionalList.size()) {
+//
+//                for (int i = 0; i < helperList.size(); i++) {
+//                    if (helperList.get(i).getLeftValue().equals
+//                            (positionalList.get(i).getLeftValue())) {
+//
+//                        if (helperList.get(i).getRightValue().equals
+//                                (positionalList.get(i).getRightValue() +
+//                                        phraseToken[0].length() + 1)) {
+//                            helperList2.add(positionalList.get(i));
+//                        }
+//                    }
+//                }
+//            } else {
+//
+//                for (int i = 0; i < positionalList.size(); i++) {
+//                    if (helperList.get(i).getLeftValue().equals
+//                            (positionalList.get(i).getLeftValue())) {
+//
+//                        if (helperList.get(i).getRightValue().equals(positionalList.get(i)
+//                                .getRightValue() + phraseToken[0].length() + 1)) {
+//                            helperList2.add(positionalList.get(i));
+//                        }
+//                    }
+//                }
+//            }
+
+            }
+
+        int count = 0;
+        for (Pair<Integer,Integer> pair : finalList) {
 		    System.out.println("(" + pair.getLeftValue()+","+pair
                     .getRightValue()+")");
+		    positionalList.add(pair);
+		    count++;
         }
-        return helperList2;
+        System.out.println(count);
+        return positionalList;
+
+    }
+
+    @Override
+    public List<Pair<Integer, Integer>> prefixOccurrence(String prefix) throws IllegalArgumentException {
+
+        if (prefix.isEmpty() || prefix == null) {
+            throw new IllegalArgumentException();
+        }
+
+        List<Pair<Integer,Integer>> pairMyLinkedList = new ArrayList<>();
+
+        pairMyLinkedList = mainDocTrie.predictWord(mainDocContainer, prefix);
+
+
+        int count = 0;
+        for (Pair<Integer,Integer> pair: pairMyLinkedList) {
+            System.out.println(pair.getLeftValue() + " " + pair.getRightValue
+                    ());
+            count++;
+        }
+
+        System.out.println("Count: " + count);
+        return null;
     }
 }

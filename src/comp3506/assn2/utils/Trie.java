@@ -1,6 +1,7 @@
 package comp3506.assn2.utils;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Trie {
@@ -92,37 +93,44 @@ public class Trie {
         }
     }
 
-    public List<Pair<Integer,Integer>> returnList(TrieContainer
-                                                                    start,
-                                                          String word,
-                                                          List<Pair<Integer,
-                                                                  Integer>>
-                                                                  pairList) {
+    public MyLinkedList<Pair<Integer,Integer>> returnList(TrieContainer start,
+                                                  String word) {
+
+        MyLinkedList<Pair<Integer,Integer>> returnList = new MyLinkedList<>();
         int count = 0;
         for (int i=0; i< word.length(); i++) {
             char ch = word.charAt(i);
             TrieContainer t = start.series[i];
-//            if (t != null) {
-//                for (Pair<Integer,Integer> pair: t.linkedList) {
-//                    System.out.println(pair.getLeftValue() + " " + pair.getRightValue());
-//                }
-//                System.out.println("That was a word");
-//            }
 
-            if (start.series[ch-97] != null) {
-                if (word.length()-1 != i) {
-                    start = start.series[ch-97];
-                } else {
-                    if (start.series[ch-97].isEnd) {
-                        for (Pair<Integer,Integer> pair : start.series[ch-97]
-                                .linkedList) {
-                            pairList.add(pair);
+//                int apostropheChar = 26;
+//                if (start.series[apostropheChar] != null) {
+//                    if (word.length() - 1 != i) {
+//                        start = start.series[apostropheChar];
+//                    } else {
+//                        if (start.series[apostropheChar].isEnd) {
+//                            for (Pair<Integer, Integer> pair : start.series[apostropheChar]
+//                                    .linkedList) {
+//                                pairList.add(pair);
+//                                break;
+//                            }
+//                        }
+//                    }
+//                }
+                if (start.series[ch - 97] != null) {
+                    if (word.length() - 1 != i) {
+                        start = start.series[ch - 97];
+                    } else {
+                        if (start.series[ch - 97].isEnd) {
+                            for (Pair<Integer, Integer> pair : start.series[ch - 97]
+                                    .linkedList) {
+                                returnList.insertAtBack(pair);
+                            }
                         }
                     }
                 }
-            }
+
         }
-        return pairList;
+        return returnList;
     }
 
     public int wordCount(TrieContainer start,String word) {
@@ -133,22 +141,29 @@ public class Trie {
 
             TrieContainer t = start.series[i];
 
-//            if (t != null && ) { // and t (word) equals the string
-//                // word given.
-//                count = t.linkedList.size;
-//            }
-
-            if (start.series[ch-97] != null) {
-                if (word.length() - 1 != i) {
-                    start = start.series[ch-97];
-                } else {
-                    if (start.series[ch-97].isEnd) {
-                        count = start.series[ch-97].linkedList.size;
+            if (ch == '\'') {
+                int apostropheChar = 26;
+                if (start.series[apostropheChar] != null) {
+                    if (word.length() - 1 != i) {
+                        start = start.series[apostropheChar];
+                    } else {
+                        if (start.series[apostropheChar].isEnd) {
+                            count = start.series[apostropheChar].linkedList
+                                    .size;
+                        }
+                    }
+                }
+            } else {
+                if (start.series[ch - 97] != null) {
+                    if (word.length() - 1 != i) {
+                        start = start.series[ch - 97];
+                    } else {
+                        if (start.series[ch - 97].isEnd) {
+                            count = start.series[ch - 97].linkedList.size;
+                        }
                     }
                 }
             }
-
-            // or if t matches the word, break loop.
         }
         return count;
     }
@@ -232,8 +247,68 @@ public class Trie {
         return returnString;
     }
 
+    public List<Pair<Integer,Integer>> predictWord(TrieContainer start, String word) {
+
+
+        MyLinkedList<Pair<Integer,Integer>> pairMyLinkedList = new
+                MyLinkedList<>();
+
+        List<Pair<Integer,Integer>> listz = new ArrayList<>();
+
+
+//        System.out.println("we got here");
+        for (int i = 0; i< word.length(); i++) {
+
+
+            int index = word.charAt(i) - 'a';
+
+            if (start.series[index] != null) {
+                //if (word.length()-1 != i) {
+                    start = start.series[index];
+                //}
+            }
+
+        }
+
+
+        predict(word,start,listz);
+
+        return listz;
+    }
+
+    public void predict(String word, TrieContainer container,
+                        List<Pair<Integer,Integer>> list) {
+
+//        MyLinkedList<Pair<Integer,Integer>> pairMyLinkedList = new
+//                MyLinkedList<>();
+
+        if (container.isEnd) {
+
+            for (Pair<Integer,Integer> pair: container.linkedList) {
+
+                if (!list.contains(pair)) {
+                    list.add(pair);
+                }
+            }
+            //return pairMyLinkedList;
+            //words.insertAtBack(word);
+        }
+
+            TrieContainer[] trieContainers = container.series;
+
+//        System.out.println("we also got here");
+            for (TrieContainer trieContainer : trieContainers) {
+                if (trieContainer != null) {
+
+                    char childChar = trieContainer.convertToChar(trieContainer);
+                        predict(word + Character.toString
+                                        (childChar),
+                                trieContainer, list);
+                }
+            }
+    }
+
     public static void main(String[] args) {
-        //do nothing
     }
 
 }
