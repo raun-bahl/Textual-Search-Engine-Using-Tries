@@ -254,13 +254,16 @@ public class AutoTester implements Search {
 //                int count = wordCount("");
 //                System.out.println(count);
 
-//                phraseOccurrence("hey what up yo");
+                phraseOccurrence("make itself");
 
-                prefixOccurrence("attent");
+//                prefixOccurrence("attent");
 //                int count = wordCount("hey");
 //                System.out.println(count);
 //				int result = wordCount("hello");
 //				System.out.println(result);
+
+//                String[] stringArray = {"this","they","dude"};
+//                wordsOnLine(stringArray);
 
             } catch (FileNotFoundException e) {
 
@@ -310,6 +313,10 @@ public class AutoTester implements Search {
         //Copy the results into this
         List<Pair<Integer,Integer>> positionalList = new ArrayList<>();
 
+        MyLinkedList<Pair<Integer,Integer>> firstWordList = new
+                MyLinkedList<>();
+
+
         MyLinkedList<Pair<Integer,Integer>> positionList = new MyLinkedList<>();
         MyLinkedList<Pair<Integer,Integer>> helperList = new MyLinkedList<>();
         MyLinkedList<Pair<Integer,Integer>> finalList = new MyLinkedList<>();
@@ -348,218 +355,33 @@ public class AutoTester implements Search {
 
 
         } else {
-		    boolean flag = true;
-//           for (Pair<Integer,Integer> pair: positionList) {
-//               System.out.println(pair.getLeftValue() + " " + pair.getRightValue());
-//           }
 
-//            List<String> wordsList = new ArrayList<>();
-//
-//            for (String word: phraseToken) {
-//                wordsList.add(word);
+		    int length = 0;
+		    int phraseLength = phraseToken.length;
 
-            for (int i=0; i< phraseToken.length-1; i++) {
+		    firstWordList = mainDocTrie.returnList(mainDocContainer,
+                    phraseToken[0]);
+		    length = phraseToken[0].length();
+		    System.out.println(length);
 
-                StringBuilder sb = new StringBuilder();
+		    for (int i = 1; i< phraseToken.length; i++) {
 
-                    //Create a string of phraseToken[i] + phraseToken[i+1]
-                    positionList = mainDocTrie.returnList(mainDocContainer,
-                            phraseToken[i]);
-                    helperList = mainDocTrie.returnList(mainDocContainer,
-                            phraseToken[i + 1]);
+		        helperList = mainDocTrie.returnList(mainDocContainer,
+                        phraseToken[i]);
 
-                    for (Pair<Integer, Integer> word2Pair : helperList) {
+		        firstWordList = matchLists(length,firstWordList,helperList);
 
-                        for (Pair<Integer, Integer> word1Pair : positionList) {
+                length += phraseToken[i].length()+1;
 
-                            if (word2Pair.getRightValue().equals(word1Pair
-                                    .getRightValue() + phraseToken[i].length() +
-                                    1) &&
-                                    word2Pair.getLeftValue().equals(word1Pair
-                                            .getLeftValue())) {
-                                //Don't add it yet, check further loops
-//                                Pair<Integer, Integer> pair = new Pair<>(word1Pair
-//                                        .getLeftValue(), word1Pair.getRightValue());
-//                                finalList.insertAtBack(pair);
-                                // if they are together, pass the two lists
-                                // in a function, which  will basically
-                                // ensure that the following characters are
-                                // good to go. basically pass the lists with
-                                // phraseToken[i+1] and phraseToken[i+2], if
-                                // that is good then go forward, do recursion
-                                // with the breaking conditon as that if if
-                                // the phraseToken is the last one maybe? or
-                                // like if i actually has reached it's limit.
-                                continue;
-                            } else {
-                                flag = false;
-                                break;
-                            }
-                        }
-                    }
+		        if (length == phraseLength) {
+		            break;
+                }
             }
 
-//            }
-
-//            for (int i=0; i< helperList.getSize(); i++) {
-//
-//                for (int j = 0; j < positionList.getSize(); j++) {
-//
-////                    System.out.println(positionList.get(j).);
-//                    System.out.println(positionList.get(j).getRightValue());
-//
-//                    if (helperList.get(i).getRightValue().equals(positionList
-//                            .get(j).getRightValue()+phraseToken[0] + 1)) {
-//
-//
-//
-//                        Pair<Integer,Integer> pair = new Pair<>
-//                                (positionList.get(j).getLeftValue(),
-//                                        positionList.get(j).getRightValue());
-//                        finalList.insertAtBack(pair);
-//
-//                    }
-//
-//                }
-//            }
-
-            //Now wordsList contains all words
-
-
-
-
-//            for (Iterator<Pair<Integer,Integer>> pairIterator2 = helperList
-//                    .iterator() ; pairIterator2.hasNext();) {
-//                for (Iterator<Pair<Integer,Integer>> pairIterator1 =
-//                     positionList.iterator() ; pairIterator1.hasNext();) {
-//
-//                    System.out.println(pairIterator2.next().getLeftValue() +
-//                            " " + pairIterator2.next().getRightValue());
-//
-//                    if (pairIterator2.next().getRightValue().equals
-//                            (pairIterator1.next().getRightValue()
-//                                    +phraseToken[0] + 1)) {
-
-//
-//                    }
-//                }
-//            }
-
-//
-//		    for (Pair<Integer,Integer> pair: positionalList && Pair<Integer,
-//            Integer> pair1 : helperList) {
-//
-//            }
-            //List sizing issue here, might be causing the size issue as well
-            // . Because the two lists have different sizes
-//
-
-
-
-
-
-//            while (pairIterator2.hasNext()) {
-//
-//                if (!pairIterator1.next().getLeftValue().equals
-//                        (pairIterator2.next().getLeftValue())) {
-//
-//                    if (pairIterator2.next().getLeftValue() <
-//                            pairIterator1.next().getRightValue()) {
-//
-//                        pairIterator2.next();
-//                    } else {
-//                        pairIterator1.next();
-//                    }
-//                } else {
-//
-//                    Pair<Integer,Integer> firstWordPair = pairIterator1.next();
-//                    Pair<Integer,Integer> secondWordPair = pairIterator2.next();
-//
-
-//
-//                        finalList.insertAtBack(pair);
-//                    }
-//                }
-
-
-
-//
-//                if (!(pairIterator1.next().getLeftValue().equals
-//                        (pairIterator2.next().getLeftValue()))) {
-//
-//                    if (positionList.getSize() < helperList.getSize()) {
-//
-//                        pairIterator2.next();
-//                        if (firstWordPair.getLeftValue().equals
-//                                (secondWordPair.getLeftValue())) {
-//
-
-//                        }
-//
-//                    } else {
-//                        pairIterator1.next();
-//                    }
-//                    else {
-//                        if (firstWordPair.getLeftValue().equals
-//                                (secondWordPair.getLeftValue())) {
-//
-//                            if (secondWordPair.getRightValue().equals
-//                                    (firstWordPair.getRightValue() +
-//                                            phraseToken[0].length() + 1)) {
-//
-
-//                            }
-//                        }
-//                    }
-//                }
-
-//                if (firstWordPair.getLeftValue().equals
-//                        (secondWordPair.getLeftValue())) {
-//
-//                    if (secondWordPair.getRightValue().equals
-//                            (firstWordPair.getRightValue() +
-//                                    phraseToken[0].length() + 1)) {
-//
-//                        Pair<Integer,Integer> pair = new Pair<>
-//                                (firstWordPair.getLeftValue(),
-//                                        firstWordPair.getRightValue());
-//                        finalList.insertAtBack(pair);
-//                    }
-//                }
-
-
-//
-//            if (helperList.size() < positionalList.size()) {
-//
-//                for (int i = 0; i < helperList.size(); i++) {
-//                    if (helperList.get(i).getLeftValue().equals
-//                            (positionalList.get(i).getLeftValue())) {
-//
-//                        if (helperList.get(i).getRightValue().equals
-//                                (positionalList.get(i).getRightValue() +
-//                                        phraseToken[0].length() + 1)) {
-//                            helperList2.add(positionalList.get(i));
-//                        }
-//                    }
-//                }
-//            } else {
-//
-//                for (int i = 0; i < positionalList.size(); i++) {
-//                    if (helperList.get(i).getLeftValue().equals
-//                            (positionalList.get(i).getLeftValue())) {
-//
-//                        if (helperList.get(i).getRightValue().equals(positionalList.get(i)
-//                                .getRightValue() + phraseToken[0].length() + 1)) {
-//                            helperList2.add(positionalList.get(i));
-//                        }
-//                    }
-//                }
-//            }
-
-            }
+		}
 
         int count = 0;
-        for (Pair<Integer,Integer> pair : finalList) {
+        for (Pair<Integer,Integer> pair : firstWordList) {
 		    System.out.println("(" + pair.getLeftValue()+","+pair
                     .getRightValue()+")");
 		    positionalList.add(pair);
@@ -591,5 +413,131 @@ public class AutoTester implements Search {
 
         System.out.println("Count: " + count);
         return null;
+    }
+
+    /**
+     * @param words Array of words to find on a single line in the document.
+     * @return
+     * @throws IllegalArgumentException
+     */
+    @Override
+    public List<Integer> wordsOnLine(String[] words) throws IllegalArgumentException {
+
+        MyLinkedList<Pair<Integer,Integer>> myList = new MyLinkedList<>();
+        List<Pair<Integer,Integer>> mainList = new ArrayList<>();
+        MyLinkedList<Integer> lineList = new MyLinkedList<>();
+        List<Integer> yeetList = new ArrayList<>();
+
+        if (words.length<1 || words == null) {
+            throw new IllegalArgumentException();
+        }
+        for (String word: words) {
+            if (word.isEmpty() || word == null) {
+                throw new IllegalArgumentException();
+            }
+        }
+
+//        for (String word: words) {
+//            myList = mainDocTrie.returnList(mainDocContainer, word);
+//            for (Pair<Integer,Integer> pair : myList) {
+//                mainList.add(pair);
+//            }
+//        }
+//
+////        for(int i=0; i< mainList.size(); i++) {
+////            System.out.println(mainList.get(i).getLeftValue() + " " +
+////                    mainList.get(i).getRightValue());
+////        }
+//
+//        for (int i = 0; i < mainList.size(); i++) {
+//            for (int j = i+1; j < mainList.size(); j++) {
+//
+//                if (mainList.get(i).getLeftValue().equals(mainList.get(j)
+//                        .getLeftValue())) {
+//
+//                    yeetList.add(mainList.get(j).getLeftValue());
+//                    //lineList.insertAtBack(mainList.get(j).getLeftValue());
+//                }
+//                break;
+//            }
+//        }
+//
+//
+//
+//        for (Integer integer : yeetList) {
+//            System.out.println(integer);
+//        }
+//        for (Pair<Integer,Integer> pair: mainList) {
+//            System.out.println(pair.getLeftValue() + " " + pair.getRightValue());
+//        }
+
+
+        return null;
+    }
+
+    @Override
+    public List<Integer> someWordsOnLine(String[] words) throws IllegalArgumentException {
+
+        if (words.length<1 || words == null) {
+            throw new IllegalArgumentException();
+        }
+        for (String word: words) {
+            if (word.isEmpty() || word == null) {
+                throw new IllegalArgumentException();
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public List<Integer> wordsNotOnLine(String[] wordsRequired, String[] wordsExcluded) throws IllegalArgumentException {
+
+        if (wordsRequired.length<1 || wordsRequired == null) {
+            throw new IllegalArgumentException();
+        }
+        for (String word: wordsRequired) {
+            if (word.isEmpty() || word == null) {
+                throw new IllegalArgumentException();
+            }
+        }
+
+        if (wordsExcluded.length<1 || wordsExcluded == null) {
+            throw new IllegalArgumentException();
+        }
+        for (String word: wordsExcluded) {
+            if (word.isEmpty() || word == null) {
+                throw new IllegalArgumentException();
+            }
+        }
+
+        return null;
+    }
+
+    private MyLinkedList<Pair<Integer,Integer>> matchLists(int length,
+                                                           MyLinkedList<Pair<Integer,Integer>>
+                                                                   list1,
+                                                           MyLinkedList<Pair<Integer,Integer>> list2) {
+
+        MyLinkedList<Pair<Integer,Integer>> list = new MyLinkedList<>();
+
+        outerLoop:
+        for (Pair<Integer,Integer> wordPair2 : list2) {
+
+            for (Pair<Integer,Integer> wordPair1: list1) {
+
+                if (wordPair2.getRightValue().equals(wordPair1.getRightValue
+                        ()+length+1) && wordPair2.getLeftValue().equals
+                        (wordPair1.getLeftValue())) {
+
+                    Pair<Integer,Integer> firstWordPair = new Pair<>
+                            (wordPair1.getLeftValue(),
+                                    wordPair1.getRightValue());
+
+                    list.insertAtBack(firstWordPair);
+
+                }
+            }
+        }
+        return list;
     }
 }

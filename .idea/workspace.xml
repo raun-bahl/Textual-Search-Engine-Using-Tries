@@ -4,8 +4,6 @@
     <list default="true" id="c7a36541-8336-4793-9977-3de5aca2c8eb" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/files/random.txt" afterPath="$PROJECT_DIR$/files/random.txt" />
-      <change beforePath="$PROJECT_DIR$/out/production/provided_code/comp3506/assn2/utils/Trie.class" afterPath="$PROJECT_DIR$/out/production/provided_code/comp3506/assn2/utils/Trie.class" />
-      <change beforePath="$PROJECT_DIR$/out/test/provided_code/comp3506/assn2/application/AutoTester.class" afterPath="$PROJECT_DIR$/out/test/provided_code/comp3506/assn2/application/AutoTester.class" />
       <change beforePath="$PROJECT_DIR$/src/comp3506/assn2/utils/MyLinkedList.java" afterPath="$PROJECT_DIR$/src/comp3506/assn2/utils/MyLinkedList.java" />
       <change beforePath="$PROJECT_DIR$/src/comp3506/assn2/utils/Trie.java" afterPath="$PROJECT_DIR$/src/comp3506/assn2/utils/Trie.java" />
       <change beforePath="$PROJECT_DIR$/tst/comp3506/assn2/application/AutoTester.java" afterPath="$PROJECT_DIR$/tst/comp3506/assn2/application/AutoTester.java" />
@@ -23,8 +21,8 @@
       <file leaf-file-name="AutoTester.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/tst/comp3506/assn2/application/AutoTester.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="207">
-              <caret line="258" column="40" lean-forward="false" selection-start-line="258" selection-start-column="40" selection-end-line="258" selection-end-column="40" />
+            <state relative-caret-position="265">
+              <caret line="256" column="24" lean-forward="true" selection-start-line="256" selection-start-column="24" selection-end-line="256" selection-end-column="24" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -55,8 +53,8 @@
       <file leaf-file-name="MyLinkedList.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/comp3506/assn2/utils/MyLinkedList.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="495">
-              <caret line="211" column="20" lean-forward="false" selection-start-line="211" selection-start-column="20" selection-end-line="211" selection-end-column="20" />
+            <state relative-caret-position="75">
+              <caret line="167" column="47" lean-forward="true" selection-start-line="167" selection-start-column="47" selection-end-line="167" selection-end-column="47" />
               <folding>
                 <element signature="e#562#563#0" expanded="true" />
                 <element signature="e#601#602#0" expanded="true" />
@@ -78,8 +76,8 @@
       <file leaf-file-name="TrieContainer.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/comp3506/assn2/utils/TrieContainer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-113">
-              <caret line="7" column="12" lean-forward="false" selection-start-line="7" selection-start-column="12" selection-end-line="7" selection-end-column="12" />
+            <state relative-caret-position="84">
+              <caret line="24" column="0" lean-forward="true" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -95,20 +93,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MyMap.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/comp3506/assn2/utils/MyMap.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="15">
-              <caret line="29" column="43" lean-forward="false" selection-start-line="29" selection-start-column="43" selection-end-line="29" selection-end-column="43" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="Search.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/comp3506/assn2/application/Search.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-348">
+            <state relative-caret-position="-437">
               <caret line="47" column="85" lean-forward="false" selection-start-line="47" selection-start-column="85" selection-end-line="47" selection-end-column="85" />
               <folding />
             </state>
@@ -118,8 +106,8 @@
       <file leaf-file-name="Trie.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/comp3506/assn2/utils/Trie.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="291">
-              <caret line="290" column="17" lean-forward="false" selection-start-line="290" selection-start-column="17" selection-end-line="290" selection-end-column="17" />
+            <state relative-caret-position="1003">
+              <caret line="309" column="0" lean-forward="false" selection-start-line="309" selection-start-column="0" selection-end-line="309" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -183,8 +171,8 @@
         <option value="$PROJECT_DIR$/src/comp3506/assn2/utils/Node.java" />
         <option value="$PROJECT_DIR$/src/comp3506/assn2/application/Search.java" />
         <option value="$PROJECT_DIR$/src/comp3506/assn2/utils/TrieContainer.java" />
-        <option value="$PROJECT_DIR$/src/comp3506/assn2/utils/MyLinkedList.java" />
         <option value="$PROJECT_DIR$/src/comp3506/assn2/utils/Trie.java" />
+        <option value="$PROJECT_DIR$/src/comp3506/assn2/utils/MyLinkedList.java" />
         <option value="$PROJECT_DIR$/tst/comp3506/assn2/application/AutoTester.java" />
       </list>
     </option>
@@ -452,7 +440,7 @@
       <workItem from="1538795636564" duration="10136000" />
       <workItem from="1538873318454" duration="12148000" />
       <workItem from="1538904616236" duration="27000" />
-      <workItem from="1538959961739" duration="52003000" />
+      <workItem from="1538959961739" duration="65523000" />
     </task>
     <task id="LOCAL-00001" summary="Algorithms and Data Structures base files, code provided.">
       <created>1537145916563</created>
@@ -615,14 +603,21 @@
       <option name="project" value="LOCAL" />
       <updated>1538901840292</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="&quot;Prefix search works. Good job. Work on Boolean Logics and Phrase Occurence &#10;tomorrow. Boolean logics need to be done by thursday max.&quot;">
+      <created>1539101753026</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1539101753027</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="216661000" />
+    <option name="totallyTimeSpent" value="230181000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="748" y="0" width="692" height="900" extended-state="6" />
+    <frame x="649" y="0" width="791" height="900" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -714,7 +709,8 @@
     <MESSAGE value="&quot;I guess the indexing works perfectly now? I will test some more cases. But&#10;dude this nodal linked list works so much better than all of my previous im-&#10;plementations. &quot;" />
     <MESSAGE value="&quot;trailing space bug fixed&quot;" />
     <MESSAGE value="&quot;Phrase occurence works for 2 words. Need to loop this or generalise this to &#10;work for more than two words, probably loop.&quot;" />
-    <option name="LAST_COMMIT_MESSAGE" value="&quot;Phrase occurence works for 2 words. Need to loop this or generalise this to &#10;work for more than two words, probably loop.&quot;" />
+    <MESSAGE value="&quot;Prefix search works. Good job. Work on Boolean Logics and Phrase Occurence &#10;tomorrow. Boolean logics need to be done by thursday max.&quot;" />
+    <option name="LAST_COMMIT_MESSAGE" value="&quot;Prefix search works. Good job. Work on Boolean Logics and Phrase Occurence &#10;tomorrow. Boolean logics need to be done by thursday max.&quot;" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1017,10 +1013,28 @@
         </state>
       </provider>
     </entry>
-    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_162.jdk/Contents/Home/src.zip!/java/util/HashMap.java">
+    <entry file="file://$PROJECT_DIR$/src/comp3506/assn2/utils/Node.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="601" column="25" lean-forward="false" selection-start-line="601" selection-start-column="25" selection-end-line="601" selection-end-column="25" />
+        <state relative-caret-position="30">
+          <caret line="2" column="13" lean-forward="false" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/comp3506/assn2/utils/Trie.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1003">
+          <caret line="309" column="0" lean-forward="false" selection-start-line="309" selection-start-column="0" selection-end-line="309" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/comp3506/assn2/application/Search.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-437">
+          <caret line="47" column="85" lean-forward="false" selection-start-line="47" selection-start-column="85" selection-end-line="47" selection-end-column="85" />
           <folding />
         </state>
       </provider>
@@ -1033,30 +1047,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/comp3506/assn2/utils/Node.java">
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_162.jdk/Contents/Home/src.zip!/java/util/HashMap.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="2" column="13" lean-forward="false" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
+        <state relative-caret-position="15">
+          <caret line="601" column="25" lean-forward="false" selection-start-line="601" selection-start-column="25" selection-end-line="601" selection-end-column="25" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/comp3506/assn2/utils/TrieContainer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-113">
-          <caret line="7" column="12" lean-forward="false" selection-start-line="7" selection-start-column="12" selection-end-line="7" selection-end-column="12" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/comp3506/assn2/utils/MyLinkedList.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="495">
-          <caret line="211" column="20" lean-forward="false" selection-start-line="211" selection-start-column="20" selection-end-line="211" selection-end-column="20" />
-          <folding>
-            <element signature="e#562#563#0" expanded="true" />
-            <element signature="e#601#602#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1068,28 +1063,29 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/comp3506/assn2/application/Search.java">
+    <entry file="file://$PROJECT_DIR$/src/comp3506/assn2/utils/TrieContainer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-348">
-          <caret line="47" column="85" lean-forward="false" selection-start-line="47" selection-start-column="85" selection-end-line="47" selection-end-column="85" />
+        <state relative-caret-position="84">
+          <caret line="24" column="0" lean-forward="true" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/comp3506/assn2/utils/Trie.java">
+    <entry file="file://$PROJECT_DIR$/src/comp3506/assn2/utils/MyLinkedList.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="291">
-          <caret line="290" column="17" lean-forward="false" selection-start-line="290" selection-start-column="17" selection-end-line="290" selection-end-column="17" />
+        <state relative-caret-position="75">
+          <caret line="167" column="47" lean-forward="true" selection-start-line="167" selection-start-column="47" selection-end-line="167" selection-end-column="47" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="e#562#563#0" expanded="true" />
+            <element signature="e#601#602#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/tst/comp3506/assn2/application/AutoTester.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="207">
-          <caret line="258" column="40" lean-forward="false" selection-start-line="258" selection-start-column="40" selection-end-line="258" selection-end-column="40" />
+        <state relative-caret-position="265">
+          <caret line="256" column="24" lean-forward="true" selection-start-line="256" selection-start-column="24" selection-end-line="256" selection-end-column="24" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
