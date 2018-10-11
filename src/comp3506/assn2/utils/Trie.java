@@ -46,7 +46,6 @@ public class Trie {
                         trie.isEnd = (word.length() - 1 == j ? true : false);
                         start.series[apostropheChar] = trie;
                         start = start.series[apostropheChar];
-                        temp++;
                     }
                 } else {
                     character = Character.toLowerCase(tempChar);
@@ -55,21 +54,29 @@ public class Trie {
                     //if it is not filled then create new TrieContainer object and place it at correct position, and check
                     //if it is end of the word, then mark isEnd = true or else false;
                     if (start.series[character - aint] != null) {
-                        if (word.length() - 1 == j) { //if word is found till last character, then mark the end as true.
+                        if (word.length() - 1 == j) {
+                            //start.linkedList.insertAtBack(location);//if
+                            // word is found till last character, then mark the end as true.
                             start.series[character - aint].isEnd = true;
-
                         }
 
                         start = start.series[character - aint];
                     } else {
+
                         TrieContainer trie = new TrieContainer();
-                        trie.isEnd = (word.length() - 1 == j ? true : false);
+                        if (word.length() - 1 == j) {
+                            //start.linkedList.insertAtBack(location);
+                            trie.isEnd = true;
+                        } else {
+                            trie.isEnd = false;
+                        }
+//                        trie.isEnd = (word.length() - 1 == j ? true : false);
                         start.series[character - aint] = trie;
                         start = start.series[character - aint];
                     }
                 }
-                start.linkedList.insertAtBack(location);
             }
+        start.linkedList.insertAtBack(location);
 
     }
 
@@ -97,25 +104,67 @@ public class Trie {
                                                   String word) {
 
         MyLinkedList<Pair<Integer,Integer>> returnList = new MyLinkedList<>();
+
+        for (int i=0; i< word.length(); i++) {
+            char ch = word.charAt(i);
+            TrieContainer t = start.series[i];
+
+            if (ch == '\'') {
+                int apostropheChar = 26;
+                if (start.series[apostropheChar] != null) {
+                    if (word.length() - 1 != i) {
+                        start = start.series[apostropheChar];
+                    } else {
+                        if (start.series[apostropheChar].isEnd) {
+                            for (Pair<Integer, Integer> pair : start.series[apostropheChar]
+                                    .linkedList) {
+                                returnList.insertAtBack(pair);
+                            }
+                        }
+                    }
+                }
+                } else {
+                if (start.series[ch - 97] != null) {
+                    if (word.length() - 1 != i) {
+                        start = start.series[ch - 97];
+                    } else {
+                        if (start.series[ch - 97].isEnd) {
+                                for (Pair<Integer, Integer> pair : start.series[ch - 97]
+                                        .linkedList) {
+                                    returnList.insertAtBack(pair);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return returnList;
+    }
+
+    public MyLinkedList<Integer> returnLineList(TrieContainer start, String
+            word) {
+        MyLinkedList<Integer> returnList = new MyLinkedList<>();
         int count = 0;
         for (int i=0; i< word.length(); i++) {
             char ch = word.charAt(i);
             TrieContainer t = start.series[i];
 
-//                int apostropheChar = 26;
-//                if (start.series[apostropheChar] != null) {
-//                    if (word.length() - 1 != i) {
-//                        start = start.series[apostropheChar];
-//                    } else {
-//                        if (start.series[apostropheChar].isEnd) {
-//                            for (Pair<Integer, Integer> pair : start.series[apostropheChar]
-//                                    .linkedList) {
-//                                pairList.add(pair);
-//                                break;
-//                            }
-//                        }
-//                    }
-//                }
+            if (ch == '\'') {
+                int apostropheChar = 26;
+                if (start.series[apostropheChar] != null) {
+                    if (word.length() - 1 != i) {
+                        start = start.series[apostropheChar];
+                    } else {
+                        if (start.series[apostropheChar].isEnd) {
+                            for (Pair<Integer, Integer> pair : start.series[apostropheChar]
+                                    .linkedList) {
+                                returnList.insertAtBack(pair.getLeftValue());
+                                break;
+                            }
+                        }
+                    }
+                }
+            } else {
                 if (start.series[ch - 97] != null) {
                     if (word.length() - 1 != i) {
                         start = start.series[ch - 97];
@@ -123,12 +172,12 @@ public class Trie {
                         if (start.series[ch - 97].isEnd) {
                             for (Pair<Integer, Integer> pair : start.series[ch - 97]
                                     .linkedList) {
-                                returnList.insertAtBack(pair);
+                                returnList.insertAtBack(pair.getLeftValue());
                             }
                         }
                     }
                 }
-
+            }
         }
         return returnList;
     }
@@ -136,6 +185,7 @@ public class Trie {
     public int wordCount(TrieContainer start,String word) {
         int count = 0;
 
+        outerLoop:
         for (int i=0; i< word.length(); i++) {
             char ch = word.charAt(i);
 
@@ -160,6 +210,9 @@ public class Trie {
                     } else {
                         if (start.series[ch - 97].isEnd) {
                             count = start.series[ch - 97].linkedList.size;
+                        }
+                        if (word.length()-1 == i) {
+                            break outerLoop;
                         }
                     }
                 }

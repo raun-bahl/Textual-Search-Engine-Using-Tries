@@ -2,6 +2,7 @@ package comp3506.assn2.application;
 
 import comp3506.assn2.utils.*;
 import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
+import sun.awt.image.ImageWatched;
 
 import javax.swing.text.InternationalFormatter;
 import java.io.*;
@@ -175,6 +176,7 @@ public class AutoTester implements Search {
                         int count = docLine.indexOf(docLine.trim());
                         columnNumber = count +1 ;
 
+
                        // System.out.println("Trailing spaces:" + count);
 
                         // Trailing special characters
@@ -198,6 +200,17 @@ public class AutoTester implements Search {
 
 
                         columnNumber+= count2;
+
+                        int count3 = (docLine.length() - docLine.replaceAll
+                                ("^\'|\'$"," ")
+                                .length());
+
+                        //THIS +1 be causing trouble
+                        columnNumber += count3;
+
+                        //removes the trailing and ending apostrophes
+                        docLine = docLine.replaceAll("^\'|\'$"," ");
+
 
                         docLine = docLine.replaceAll("[^a-zA-Z\\']", " ");
 
@@ -236,6 +249,12 @@ public class AutoTester implements Search {
 //                                int temp = word.length()-word.replaceAll
 //                                        ("[^a-zA-Z\\']", " ").length();
 
+                                int count4 = word.length()-word.replaceAll
+                                        ("^\'|\'$", "").length();
+                                columnNumber+= count4;
+
+                                word=word.replaceAll("^\'|\'$", "");
+
 
                                 mainDocTrie.storeWords(mainDocContainer,
                                             word, pair);
@@ -254,16 +273,22 @@ public class AutoTester implements Search {
 //                int count = wordCount("");
 //                System.out.println(count);
 
-                phraseOccurrence("make itself");
+//                phraseOccurrence("to be or not to be that is the question");
 
-//                prefixOccurrence("attent");
-//                int count = wordCount("hey");
+//                prefixOccurrence("obscure");
+
+//                boolean bool=mainDocTrie.isWordPresent(mainDocContainer,"too");
+//                System.out.println(bool);
+
+//                prefixOccurrence("abun");
+//                int count = wordCount("sprin");
 //                System.out.println(count);
 //				int result = wordCount("hello");
 //				System.out.println(result);
 
-//                String[] stringArray = {"this","they","dude"};
-//                wordsOnLine(stringArray);
+                String[] stringArrayRequired = {"with","flowers"};
+                String[] stringArrayExcluded = {"in"};
+                wordsNotOnLine(stringArrayRequired,stringArrayExcluded);
 
             } catch (FileNotFoundException e) {
 
@@ -313,15 +338,9 @@ public class AutoTester implements Search {
         //Copy the results into this
         List<Pair<Integer,Integer>> positionalList = new ArrayList<>();
 
-        MyLinkedList<Pair<Integer,Integer>> firstWordList = new
-                MyLinkedList<>();
-
-
+        MyLinkedList<Pair<Integer,Integer>> firstWordList = new MyLinkedList<>();
         MyLinkedList<Pair<Integer,Integer>> positionList = new MyLinkedList<>();
         MyLinkedList<Pair<Integer,Integer>> helperList = new MyLinkedList<>();
-        MyLinkedList<Pair<Integer,Integer>> finalList = new MyLinkedList<>();
-
-        MyLinkedList<Pair<Integer,Integer>> lolList = new MyLinkedList<>();
 
 
 		/*
@@ -337,19 +356,27 @@ public class AutoTester implements Search {
 //                System.out.println("(" + pair.getLeftValue() + "," + pair
 //                        .getRightValue() + ")");
 //            }
-
-            Iterator<Pair<Integer, Integer>> pairIterator = positionList
-                    .iterator();
-
-            while (pairIterator.hasNext()) {
-
-                System.out.println("(" + pairIterator.next().getLeftValue() +
-                        "," + pairIterator.next().getRightValue() + ")");
-
-                Pair<Integer,Integer> pair = new Pair<>(pairIterator.next()
-                        .getLeftValue(),pairIterator.next().getRightValue());
-                positionalList.add(pair);
+            int count = 0;
+            for (Pair<Integer,Integer> pair: positionList) {
+                Pair<Integer,Integer> insertionPair = new Pair<>(pair
+                        .getLeftValue(),
+                        pair.getRightValue());
+                System.out.println(pair.getLeftValue() + " " + pair.getRightValue());
+                positionalList.add(insertionPair);
+                count++;
             }
+
+            System.out.println(count);
+
+//            while (pairIterator.hasNext()) {
+//
+//                System.out.println("(" + pairIterator.next().getLeftValue() +
+//                        "," + pairIterator.next().getRightValue() + ")");
+//
+//                Pair<Integer,Integer> pair = new Pair<>(pairIterator.next()
+//                        .getLeftValue(),pairIterator.next().getRightValue());
+//                positionalList.add(pair);
+//            }
 
             return positionalList;
 
@@ -362,12 +389,12 @@ public class AutoTester implements Search {
 		    firstWordList = mainDocTrie.returnList(mainDocContainer,
                     phraseToken[0]);
 		    length = phraseToken[0].length();
-		    System.out.println(length);
+		    //System.out.println(length);
 
 		    for (int i = 1; i< phraseToken.length; i++) {
 
 		        helperList = mainDocTrie.returnList(mainDocContainer,
-                        phraseToken[i]);
+                        phraseToken[i].replaceAll("[^a-zA-Z\\']",""));
 
 		        firstWordList = matchLists(length,firstWordList,helperList);
 
@@ -423,10 +450,11 @@ public class AutoTester implements Search {
     @Override
     public List<Integer> wordsOnLine(String[] words) throws IllegalArgumentException {
 
-        MyLinkedList<Pair<Integer,Integer>> myList = new MyLinkedList<>();
+        MyLinkedList<Pair<Integer,Integer>> helperList = new MyLinkedList<>();
         List<Pair<Integer,Integer>> mainList = new ArrayList<>();
         MyLinkedList<Integer> lineList = new MyLinkedList<>();
-        List<Integer> yeetList = new ArrayList<>();
+        MyLinkedList<Pair<Integer,Integer>> firstWordLineList = new
+                MyLinkedList<>();
 
         if (words.length<1 || words == null) {
             throw new IllegalArgumentException();
@@ -437,40 +465,21 @@ public class AutoTester implements Search {
             }
         }
 
-//        for (String word: words) {
-//            myList = mainDocTrie.returnList(mainDocContainer, word);
-//            for (Pair<Integer,Integer> pair : myList) {
-//                mainList.add(pair);
-//            }
-//        }
-//
-////        for(int i=0; i< mainList.size(); i++) {
-////            System.out.println(mainList.get(i).getLeftValue() + " " +
-////                    mainList.get(i).getRightValue());
-////        }
-//
-//        for (int i = 0; i < mainList.size(); i++) {
-//            for (int j = i+1; j < mainList.size(); j++) {
-//
-//                if (mainList.get(i).getLeftValue().equals(mainList.get(j)
-//                        .getLeftValue())) {
-//
-//                    yeetList.add(mainList.get(j).getLeftValue());
-//                    //lineList.insertAtBack(mainList.get(j).getLeftValue());
-//                }
-//                break;
-//            }
-//        }
-//
-//
-//
-//        for (Integer integer : yeetList) {
-//            System.out.println(integer);
-//        }
-//        for (Pair<Integer,Integer> pair: mainList) {
-//            System.out.println(pair.getLeftValue() + " " + pair.getRightValue());
-//        }
+        firstWordLineList = mainDocTrie.returnList(mainDocContainer,
+                words[0]);
 
+        for (int i=1; i < words.length; i++) {
+
+            helperList = mainDocTrie.returnList(mainDocContainer, words[i]);
+            firstWordLineList = andMatcher(firstWordLineList, helperList);
+        }
+
+        for (Pair<Integer,Integer> pair: firstWordLineList) {
+
+            System.out.println(pair.getLeftValue());
+            lineList.insertAtBack(pair.getLeftValue());
+
+        }
 
         return null;
     }
@@ -478,6 +487,11 @@ public class AutoTester implements Search {
     @Override
     public List<Integer> someWordsOnLine(String[] words) throws IllegalArgumentException {
 
+        MyLinkedList<Pair<Integer,Integer>> myList = new MyLinkedList<>();
+        MyLinkedList<Integer> yeetList = new MyLinkedList<>();
+
+        List<Pair<Integer,Integer>> mainList = new ArrayList<>();
+
         if (words.length<1 || words == null) {
             throw new IllegalArgumentException();
         }
@@ -486,11 +500,33 @@ public class AutoTester implements Search {
                 throw new IllegalArgumentException();
             }
         }
+
+        for (int i = 0; i < words.length; i++) {
+            myList = mainDocTrie.returnList(mainDocContainer,words[i]);
+            for (Pair<Integer,Integer> pair: myList) {
+                if (!yeetList.contains(pair.getLeftValue())) {
+                    yeetList.insertAtBack(pair.getLeftValue());
+                }
+            }
+        }
+
+        for (Integer integer: yeetList) {
+            System.out.println(integer);
+        }
         return null;
     }
 
     @Override
     public List<Integer> wordsNotOnLine(String[] wordsRequired, String[] wordsExcluded) throws IllegalArgumentException {
+
+        MyLinkedList<Pair<Integer,Integer>> wordList1 = new MyLinkedList<>();
+        MyLinkedList<Pair<Integer,Integer>> wordList2 = new MyLinkedList<>();
+        MyLinkedList<Pair<Integer,Integer>> helperList = new MyLinkedList<>();
+        MyLinkedList<Pair<Integer,Integer>> tempList = new MyLinkedList<>();
+        MyLinkedList<Pair<Integer,Integer>> wordList1Copy = new
+                MyLinkedList<>();
+        MyLinkedList<Pair<Integer,Integer>> tempList2 = new MyLinkedList<>();
+
 
         if (wordsRequired.length<1 || wordsRequired == null) {
             throw new IllegalArgumentException();
@@ -510,8 +546,83 @@ public class AutoTester implements Search {
             }
         }
 
+        wordList1 = mainDocTrie.returnList(mainDocContainer,wordsRequired[0]);
+
+        for (int i = 1; i < wordsRequired.length; i++) {
+            wordList2 = mainDocTrie.returnList(mainDocContainer,
+                    wordsRequired[i]);
+            wordList1 = andMatcher(wordList1,wordList2);
+        }
+
+
+        for (Pair<Integer,Integer> pair: wordList1) {
+            wordList1Copy.insertAtBack(pair);
+        }
+
+        for (Pair<Integer,Integer> pair: wordList1Copy) {
+            tempList2.insertAtBack(pair);
+        }
+//
+
+        //System.out.println(wordsExcluded[0]);
+        //System.out.println(wordsExcluded[1]);
+
+        for (int i = 0; i < wordsExcluded.length; i++) {
+            helperList = mainDocTrie.returnList(mainDocContainer,
+                    wordsExcluded[i]);
+//            wordList1 = notMatcher(wordList1,helperList);
+            for (Pair<Integer,Integer> pair: helperList) {
+//                System.out.println("called");
+                tempList.insertAtBack(pair);
+//                System.out.println(pair.getLeftValue() + " " + pair
+//                        .getRightValue());
+            }
+        }
+
+//        System.out.println(wordList1Copy.getSize());
+//        System.out.println(tempList.getSize());
+
+//        for (int i = 0; i < wordList1Copy.getSize()-1; i++) {
+//            System.out.println("wot");
+//            for (int j = 0; j < tempList.getSize()-1; j++) {
+//                System.out.println("bamboozle");
+//                if (wordList1Copy.get(i).getLeftValue() == tempList.get(j)
+//                        .getLeftValue()) {
+//                    System.out.println("hey");
+//                    tempList2.deleteAtPosition(i);
+//                }
+//            }
+//        }
+
+        for (Pair<Integer,Integer> pair1: wordList1Copy) {
+            for (Pair<Integer,Integer> pair2: tempList) {
+
+                if (pair1.getLeftValue() == pair2.getLeftValue()) {
+                    wordList1Copy.remove(pair1);
+                }
+            }
+        }
+
+
+//
+//        System.out.println("Temp List below:\n");
+        for (Pair<Integer,Integer> pair: wordList1Copy) {
+            System.out.println(pair.getLeftValue());
+        }
+
+
+
+//////
+//        for (Pair<Integer,Integer> pair: tempList2) {
+//            System.out.println(pair.getLeftValue());
+//        }
+
         return null;
     }
+
+
+
+
 
     private MyLinkedList<Pair<Integer,Integer>> matchLists(int length,
                                                            MyLinkedList<Pair<Integer,Integer>>
@@ -520,7 +631,7 @@ public class AutoTester implements Search {
 
         MyLinkedList<Pair<Integer,Integer>> list = new MyLinkedList<>();
 
-        outerLoop:
+
         for (Pair<Integer,Integer> wordPair2 : list2) {
 
             for (Pair<Integer,Integer> wordPair1: list1) {
@@ -532,7 +643,6 @@ public class AutoTester implements Search {
                     Pair<Integer,Integer> firstWordPair = new Pair<>
                             (wordPair1.getLeftValue(),
                                     wordPair1.getRightValue());
-
                     list.insertAtBack(firstWordPair);
 
                 }
@@ -540,4 +650,56 @@ public class AutoTester implements Search {
         }
         return list;
     }
+
+    private MyLinkedList<Pair<Integer,Integer>> andMatcher
+            (MyLinkedList<Pair<Integer,
+            Integer>>
+                                                      list1,
+                                              MyLinkedList<Pair<Integer,
+                                                      Integer>> list2) {
+
+        MyLinkedList<Pair<Integer, Integer>> list = new MyLinkedList<>();
+
+        for (Pair<Integer, Integer> wordPair2 : list2) {
+
+            for (Pair<Integer, Integer> wordPair1 : list1) {
+
+                if (wordPair2.getLeftValue().equals(wordPair1.getLeftValue())) {
+
+                    Pair<Integer, Integer> pair = new Pair<>
+                            (wordPair1.getLeftValue(), wordPair2.getRightValue());
+                    list.insertAtBack(pair);
+                }
+            }
+        }
+        return list;
+    }
+
+    private MyLinkedList<Pair<Integer,Integer>> notMatcher(
+            MyLinkedList<Pair<Integer,Integer>> list1,
+            MyLinkedList<Pair<Integer,Integer>> list2) {
+
+        MyLinkedList<Pair<Integer,Integer>> list = new MyLinkedList<>();
+        int remover = 0;
+
+        for (Pair<Integer,Integer> wordPair2 : list2) {
+
+            for (Pair<Integer,Integer> wordPair1: list1) {
+
+
+                if (!wordPair2.getLeftValue().equals(wordPair1.getLeftValue()
+                )) {
+
+                    Pair<Integer,Integer> pair = new Pair<>
+                            (wordPair1.getLeftValue(),wordPair1.getRightValue
+                                    ());
+
+                    list.insertAtBack(pair);
+                }
+            }
+        }
+
+        return list;
+    }
+
 }

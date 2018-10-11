@@ -211,5 +211,24 @@ public class MyLinkedList<T> implements Iterable<T> {
         }
         return null;
     }
+
+    public void remove(T element) {
+        Node<T> currentNode = start;
+        Node<T> previousNode = null;
+
+        while (currentNode != null) {
+            if (element.equals(currentNode.getElement())) {
+                if (previousNode == null) {
+                    start = currentNode.link;
+                } else {
+                    previousNode.link = currentNode.link;
+                }
+                size--;
+            } else {
+                previousNode = currentNode;
+            }
+            currentNode = currentNode.link;
+        }
+    }
 }
 
