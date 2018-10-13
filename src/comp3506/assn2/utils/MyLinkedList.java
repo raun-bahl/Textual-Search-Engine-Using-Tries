@@ -3,6 +3,10 @@ package comp3506.assn2.utils;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
+/**
+ * Personal implementation of a LinkedList which can be iterated over.
+ * @param <T> Object that the linked list will hold.
+ */
 public class MyLinkedList<T> implements Iterable<T> {
 
     Node start;
@@ -15,6 +19,10 @@ public class MyLinkedList<T> implements Iterable<T> {
         size = 0;
     }
 
+    /**
+     * Iterator for the LinkedList.
+     * @param <T>
+     */
     private class ListIterator<T> implements java.util.Iterator<T>{
 
         //Reference to the current node
@@ -63,7 +71,7 @@ public class MyLinkedList<T> implements Iterable<T> {
      * Iterator object
      * Run-time complexity: O(1)
      *
-     * @return the iterating oject
+     * @return the iterating object
      */
    //Does making this not an override cause any problemos?
     @Override
@@ -72,14 +80,27 @@ public class MyLinkedList<T> implements Iterable<T> {
 
     }
 
+    /**
+     * Returns the size of the LinkedList
+     * @return size of the linked list
+     */
     public int getSize() {
         return this.size;
     }
+
+    /**
+     *  Checks whether the linked list is empty or not
+     * @return  true if it's empty, false otherwise.
+     */
 
     public boolean isEmpty() {
         return start == null;
     }
 
+    /**
+     * Insert element at the start of the LinkedList.
+     * @param element object to be inserted
+     */
     public void insertAtFront(T element) {
         Node nodePointer = new Node(element,null);
         size++;
@@ -94,6 +115,7 @@ public class MyLinkedList<T> implements Iterable<T> {
     }
 
     public void insertAtBack(T element) {
+
         Node nodePointer = new Node(element, null);
         size++;
         if (start == null) {
@@ -105,78 +127,11 @@ public class MyLinkedList<T> implements Iterable<T> {
         }
     }
 
-    public void insertAtPosition(T element, int position) {
-        Node nodePointer = new Node(element, null);
-        Node pointer = start;
-        position -= 1;
-
-        for (int i=1; i<size; i++) {
-            if (i == position) {
-                Node temp = pointer.getLink();
-                pointer.setLink(nodePointer);
-                nodePointer.setLink(temp);
-                break;
-            }
-            pointer = pointer.getLink();
-        }
-        size++;
-    }
-
-    public void deleteAtPosition(int pos) {
-        if (pos == 1)
-        {
-            start = start.getLink();
-            size--;
-            return ;
-        }
-        if (pos == size)
-        {
-            Node s = start;
-            Node t = start;
-            while (s != end)
-            {
-                t = s;
-                s = s.getLink();
-            }
-            end = t;
-            end.setLink(null);
-            size --;
-            return;
-        }
-        Node ptr = start;
-        pos = pos - 1 ;
-        for (int i = 1; i < size - 1; i++)
-        {
-            if (i == pos)
-            {
-                Node tmp = ptr.getLink();
-                tmp = tmp.getLink();
-                ptr.setLink(tmp);
-                break;
-            }
-            ptr = ptr.getLink();
-        }
-        size-- ;
-    }
-
-    public void display() {
-
-        if (size == 0) {
-            System.out.println("Empty LinkedList\n");
-        }
-        if (start.getLink() == null) {
-            System.out.println(start.getElement());
-        }
-        Node pointer = start;
-        System.out.println(start.getElement() + "->");
-        pointer = start.getLink();
-        while (pointer.getLink() != null) {
-            System.out.println(pointer.getElement() + "->");
-            pointer = pointer.getLink();
-        }
-        System.out.println(pointer.getElement()+ "->");
-    }
-
+    /**
+     * Checks if the LinkedList contains the element or not.
+     * @param element object that is to be checked
+     * @return true if the object is in the linked list, false otherwise
+     */
     public boolean contains(T element) {
         if (start == null) {
             return false;
@@ -193,25 +148,29 @@ public class MyLinkedList<T> implements Iterable<T> {
         return false;
     }
 
+    /**
+     * Gets the element object at a specified index.
+     * @param index the index of the element to be found
+     * @return the element object itself
+     */
     public T get(int index) {
 
         if (index<0) {
             return null;
         }
-        Node<T> current = null;
-        if (start != null) {
-            current = start.getLink();
-            for (int i=0; i<index; i++) {
-                if (current.getLink() == null) {
-                    return null;
-                }
-                current = current.getLink();
-            }
-            return current.getElement();
+
+        Node<T> temp = start;
+        for (int i =0; i< index; i++) {
+            temp = temp.link;
         }
-        return null;
+
+        return temp.getElement();
     }
 
+    /**
+     * Removes the provided element from the LinkedList
+     * @param element object to be removed.
+     */
     public void remove(T element) {
         Node<T> currentNode = start;
         Node<T> previousNode = null;

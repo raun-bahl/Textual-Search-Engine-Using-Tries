@@ -1,41 +1,42 @@
 package comp3506.assn2.utils;
 
-import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
-
+/**
+ * Main Trie Class. Saves words inside itself.
+ */
 public class Trie {
 
-    BufferedReader docReader, indexReader, stopWordsReader;
-    static TrieContainer start;
-    static int wordCount1 = 0;
-    static int wordCount2 = 0;
-    static int temp = 0;
-
-
-    TrieContainer[] myWord;
-    char ch;
-
+    /**
+     * Constructor.
+     */
     public Trie() {
-
     }
+
+    /**
+     * Function that stores words into a trie.
+     *
+     * @param start The starting TrieContainer/TrieNode
+     * @param word The word to be saved
+     * @param location The Pair location or the index of the word
+     */
     public void storeWords(TrieContainer start, String word, Pair<Integer,
             Integer> location){
 
         start.linkedList = new MyLinkedList<>();
-        myWord = new TrieContainer[word.length()];
 
             char tempChar, character;
             int aint = (int) 'a';
 
             for (int j = 0; j < word.length(); j++) {
                 tempChar = word.charAt(j);
-                //Since mainDocContainer has been filled up with the previous word, the following statement causes
-                // myWord[0] to fill up with the first alphabet of
-                myWord[j] = start;
+
                 if (tempChar == '\'') {
-                    //tempChar = 'x';
+
                     int apostropheChar = 26;
+
+                    //If series is filled, then proceed forward to traverse through the series of
+                    // the filled Trie Object. If not, then create a new TrieContainer and place the
+                    // character at the correct position. Finally, check if the character is the
+                    // end of the word, and mark isEnd accordingly.
                     if (start.series[apostropheChar] != null) {
                         if (word.length() - 1 == j) {
                             start.series[apostropheChar].isEnd = true;
@@ -47,74 +48,52 @@ public class Trie {
                         start.series[apostropheChar] = trie;
                         start = start.series[apostropheChar];
                     }
+
                 } else {
                     character = Character.toLowerCase(tempChar);
-                    //In series, check the position of character,
-                    //if it is already filled then check the series of filled Trie object.
-                    //if it is not filled then create new TrieContainer object and place it at correct position, and check
-                    //if it is end of the word, then mark isEnd = true or else false;
+
                     if (start.series[character - aint] != null) {
                         if (word.length() - 1 == j) {
-                            //start.linkedList.insertAtBack(location);//if
-                            // word is found till last character, then mark the end as true.
                             start.series[character - aint].isEnd = true;
                         }
-
                         start = start.series[character - aint];
                     } else {
-
                         TrieContainer trie = new TrieContainer();
-                        if (word.length() - 1 == j) {
-                            //start.linkedList.insertAtBack(location);
-                            trie.isEnd = true;
-                        } else {
-                            trie.isEnd = false;
-                        }
-//                        trie.isEnd = (word.length() - 1 == j ? true : false);
+                        trie.isEnd = (word.length() - 1 == j ? true : false);
                         start.series[character - aint] = trie;
                         start = start.series[character - aint];
                     }
                 }
             }
+        //Store the location of the word
         start.linkedList.insertAtBack(location);
-
     }
 
 
-    public void addToList(TrieContainer start, Pair<Integer,
-            Integer>
-            location) {
-
-        if (start == null) {
-            return;
-        }
-        for (int i = 0; i< start.series.length; i++) {
-            TrieContainer t = start.series[i];
-            if (t != null) {
-                    t.linkedList.insertAtFront(location);
-
-            } else {
-                continue;
-
-            }
-        }
-    }
-
+    /**
+     * Returns a list of all locations the word is at.
+     *
+     * @param start the starting TrieContainer/TrieNode.
+     * @param word the word whose index is to be found
+     * @return MyLinkedList of all locations the word is at
+     */
     public MyLinkedList<Pair<Integer,Integer>> returnList(TrieContainer start,
                                                   String word) {
 
         MyLinkedList<Pair<Integer,Integer>> returnList = new MyLinkedList<>();
 
         for (int i=0; i< word.length(); i++) {
+
             char ch = word.charAt(i);
-            TrieContainer t = start.series[i];
 
             if (ch == '\'') {
+
                 int apostropheChar = 26;
                 if (start.series[apostropheChar] != null) {
                     if (word.length() - 1 != i) {
                         start = start.series[apostropheChar];
                     } else {
+                        //The word is found
                         if (start.series[apostropheChar].isEnd) {
                             for (Pair<Integer, Integer> pair : start.series[apostropheChar]
                                     .linkedList) {
@@ -123,11 +102,13 @@ public class Trie {
                         }
                     }
                 }
-                } else {
+            } else {
+
                 if (start.series[ch - 97] != null) {
                     if (word.length() - 1 != i) {
                         start = start.series[ch - 97];
                     } else {
+                        //The word is found
                         if (start.series[ch - 97].isEnd) {
                                 for (Pair<Integer, Integer> pair : start.series[ch - 97]
                                         .linkedList) {
@@ -141,47 +122,13 @@ public class Trie {
         return returnList;
     }
 
-    public MyLinkedList<Integer> returnLineList(TrieContainer start, String
-            word) {
-        MyLinkedList<Integer> returnList = new MyLinkedList<>();
-        int count = 0;
-        for (int i=0; i< word.length(); i++) {
-            char ch = word.charAt(i);
-            TrieContainer t = start.series[i];
-
-            if (ch == '\'') {
-                int apostropheChar = 26;
-                if (start.series[apostropheChar] != null) {
-                    if (word.length() - 1 != i) {
-                        start = start.series[apostropheChar];
-                    } else {
-                        if (start.series[apostropheChar].isEnd) {
-                            for (Pair<Integer, Integer> pair : start.series[apostropheChar]
-                                    .linkedList) {
-                                returnList.insertAtBack(pair.getLeftValue());
-                                break;
-                            }
-                        }
-                    }
-                }
-            } else {
-                if (start.series[ch - 97] != null) {
-                    if (word.length() - 1 != i) {
-                        start = start.series[ch - 97];
-                    } else {
-                        if (start.series[ch - 97].isEnd) {
-                            for (Pair<Integer, Integer> pair : start.series[ch - 97]
-                                    .linkedList) {
-                                returnList.insertAtBack(pair.getLeftValue());
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        return returnList;
-    }
-
+    /**
+     * Counts the occurences of the given word.
+     *
+     * @param start The starting TrieContainer/TrieNode
+     * @param word  word for which the occurences are to be found
+     * @return  Integer representing the occurences of the given word
+     */
     public int wordCount(TrieContainer start,String word) {
         int count = 0;
 
@@ -198,6 +145,7 @@ public class Trie {
                         start = start.series[apostropheChar];
                     } else {
                         if (start.series[apostropheChar].isEnd) {
+                            // word is found, return the size of its Linked List
                             count = start.series[apostropheChar].linkedList
                                     .size;
                         }
@@ -209,6 +157,7 @@ public class Trie {
                         start = start.series[ch - 97];
                     } else {
                         if (start.series[ch - 97].isEnd) {
+                            // word is found, return the size of its Linked List
                             count = start.series[ch - 97].linkedList.size;
                         }
                         if (word.length()-1 == i) {
@@ -221,15 +170,21 @@ public class Trie {
         return count;
     }
 
+    /**
+     * Checks if the given word is present in the given Trie or not
+     * @param start  The starting TrieContainer/TrieNode
+     * @param word  The word that is to be found
+     * @return  true if the word is present, false otherwise
+     */
     public boolean isWordPresent(TrieContainer start, String word){
+
         boolean isFound = true;
         for (int i = 0; i < word.length(); i++) {
             char character = word.charAt(i);
             if (character == '\'') {
                 continue;
             } else {
-                //if at character position TrieContainer object is present then character is found and
-                //start looking for next character is word.
+
                 if (start.series[character - 97] != null) {
                     if (word.length() - 1 != i) {
                         start = start.series[character - 97];
@@ -246,123 +201,118 @@ public class Trie {
         }
         return isFound;
     }
-    public  void printWordStrings(TrieContainer start, String toPrint) {
-        if(start==null){
-            return;
-        }
-        if(start.isEnd){
-            System.out.println(toPrint);
-        }
-        for (int i = 0; i < start.series.length; i++) {
-            TrieContainer t = start.series[i];
-            if(t != null) {
-                printWordStrings(t, toPrint + (char)(97+i));
-            }
-        }
-    }
 
-    public String getStringWord(TrieContainer word) {
-        if (word == null) {
-            return "";
-        }
-        StringBuilder sb = new StringBuilder();
-        String returnString;
-        //System.out.println(word.length);
-        for (int i = 0; i<word.series.length; i++) {
+    /**
+     * Prefix searcher function. For a given word, searches for the word and words that the given
+     * word is a prefix for
+     * @param start  Starting TrieContainer/TrieNode
+     * @param word  The word whose prefix is to be searched for
+     * @return  MyLinkedList of all the indices of the word and its related prefix words
+     */
+    public MyLinkedList<Pair<Integer,Integer>> predictWord(TrieContainer start,
+                                                           String word) {
 
-            TrieContainer n = word.series[i];
+        MyLinkedList<Pair<Integer,Integer>> list = new MyLinkedList<>();
 
-            if (n != null) {
-                ch = (char) (97 + i);
-            }
-            sb.append(ch);
-            }
-        returnString = sb.toString();
-        return returnString;
-    }
-
-    public String getString(TrieContainer[] word) {
-        if (word == null) {
-            return "";
-        }
-        StringBuilder sb = new StringBuilder();
-        String returnString;
-
-        for (int i=0; i< word.length; i++) {
-            TrieContainer t = word[i];
-            for (int j = 0; j < t.series.length; i++) {
-                ch = t.convertToChar(t);
-                sb.append(ch);
-                System.out.println(ch);
-            }
-        }
-        returnString = sb.toString();
-        return returnString;
-    }
-
-    public List<Pair<Integer,Integer>> predictWord(TrieContainer start, String word) {
-
-
-        MyLinkedList<Pair<Integer,Integer>> pairMyLinkedList = new
-                MyLinkedList<>();
-
-        List<Pair<Integer,Integer>> listz = new ArrayList<>();
-
-
-//        System.out.println("we got here");
         for (int i = 0; i< word.length(); i++) {
-
 
             int index = word.charAt(i) - 'a';
 
             if (start.series[index] != null) {
-                //if (word.length()-1 != i) {
-                    start = start.series[index];
-                //}
+                // iterate to the last Node of the given prefix.
+                start = start.series[index];
             }
-
         }
 
+        // call helper function to find all children nodes
+        predict(word,start,list);
 
-        predict(word,start,listz);
-
-        return listz;
+        return list;
     }
 
+    /**
+     * Helper recursive function which traverses through all the nodes of the prefix and finds
+     * their indices.
+     *
+     * @param word the word whose children nodes are to be found
+     * @param container The starting TrieNode/TrieContainer
+     * @param list List to insert the indices of the children nodes in
+     */
     public void predict(String word, TrieContainer container,
-                        List<Pair<Integer,Integer>> list) {
+                        MyLinkedList<Pair<Integer,Integer>> list) {
 
-//        MyLinkedList<Pair<Integer,Integer>> pairMyLinkedList = new
-//                MyLinkedList<>();
 
         if (container.isEnd) {
-
+            //The child node is found
             for (Pair<Integer,Integer> pair: container.linkedList) {
 
                 if (!list.contains(pair)) {
-                    list.add(pair);
+                    list.insertAtBack(pair);
                 }
             }
-            //return pairMyLinkedList;
-            //words.insertAtBack(word);
         }
 
-            TrieContainer[] trieContainers = container.series;
+        TrieContainer[] trieContainers = container.series;
 
-//        System.out.println("we also got here");
-            for (TrieContainer trieContainer : trieContainers) {
-                if (trieContainer != null) {
+        // iterate over all the children nodes of the parent node
+        for (TrieContainer trieContainer : trieContainers) {
+            if (trieContainer != null) {
 
-                    char childChar = trieContainer.convertToChar(trieContainer);
-                        predict(word + Character.toString
-                                        (childChar),
-                                trieContainer, list);
-                }
+                char childChar = trieContainer.convertToChar(trieContainer);
+                predict(word + Character.toString(childChar), trieContainer, list);
+
             }
+        }
     }
 
+    public MyLinkedList<Triple<Integer,Integer,String>> returnTripleList(TrieContainer start,
+                                                          String word) {
 
-    public static void main(String[] args) {
+        MyLinkedList<Triple<Integer,Integer,String>> returnList = new MyLinkedList<>();
+
+        for (int i=0; i< word.length(); i++) {
+
+            char ch = word.charAt(i);
+
+            if (ch == '\'') {
+
+                int apostropheChar = 26;
+                if (start.series[apostropheChar] != null) {
+                    if (word.length() - 1 != i) {
+                        start = start.series[apostropheChar];
+                    } else {
+                        //The word is found
+                        if (start.series[apostropheChar].isEnd) {
+                            for (Pair<Integer, Integer> pair : start.series[apostropheChar]
+                                    .linkedList) {
+                                Triple<Integer,Integer,String> triple = new Triple<>(pair
+                                        .getLeftValue(),pair.getRightValue(),word);
+                                returnList.insertAtBack(triple);
+
+                            }
+                        }
+                    }
+                }
+            } else {
+
+                if (start.series[ch - 97] != null) {
+                    if (word.length() - 1 != i) {
+                        start = start.series[ch - 97];
+                    } else {
+                        //The word is found
+                        if (start.series[ch - 97].isEnd) {
+                            for (Pair<Integer, Integer> pair : start.series[ch - 97]
+                                    .linkedList) {
+                                Triple<Integer,Integer,String> triple = new Triple<>(pair
+                                        .getLeftValue(),pair.getRightValue(),word);
+                                returnList.insertAtBack(triple);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return returnList;
     }
 
 }
