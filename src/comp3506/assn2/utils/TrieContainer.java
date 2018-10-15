@@ -1,7 +1,8 @@
 package comp3506.assn2.utils;
 
 /**
- * Class which represents a node inside a Trie.
+ * Class which represents a node inside a Trie. Contains a Linked List to store the indices of a
+ * word.
  */
 public class TrieContainer {
 
@@ -26,7 +27,7 @@ public class TrieContainer {
     }
 
     /**
-     * Helper method which converts a given TrieContainer object to its respective character
+     * Helper method which converts a given TrieContainer object to its respective character.
      * @param t TrieContainer object
      * @return  character that the TrieContainer object holds
      */

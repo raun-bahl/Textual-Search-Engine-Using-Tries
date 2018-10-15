@@ -1,10 +1,18 @@
 package comp3506.assn2.utils;
 
-import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 /**
- * Personal implementation of a LinkedList which can be iterated over.
+ * Personal implementation of a singly-linked LinkedList which can be iterated over.
+ *
+ * References:
+ * The following link was used to help implement the linked list:
+ * https://www.sanfoundry.com/java-program-implement-singly-linked-list/
+ *
+ * Space complexity: O(N), since the amount of data stored in a linked list increases linearly in
+ * time with the number of nodes inside the linked list.
+ *
+ *
  * @param <T> Object that the linked list will hold.
  */
 public class MyLinkedList<T> implements Iterable<T> {
@@ -82,6 +90,8 @@ public class MyLinkedList<T> implements Iterable<T> {
 
     /**
      * Returns the size of the LinkedList
+     * Run-time complexity: O(1)
+     *
      * @return size of the linked list
      */
     public int getSize() {
@@ -90,6 +100,8 @@ public class MyLinkedList<T> implements Iterable<T> {
 
     /**
      *  Checks whether the linked list is empty or not
+     *  Run-time complexity: O(1)
+     *
      * @return  true if it's empty, false otherwise.
      */
 
@@ -97,23 +109,13 @@ public class MyLinkedList<T> implements Iterable<T> {
         return start == null;
     }
 
+
     /**
-     * Insert element at the start of the LinkedList.
+     * Insert element in the LinkedList.
+     * Run-time complexity: O(1)
+     *
      * @param element object to be inserted
      */
-    public void insertAtFront(T element) {
-        Node nodePointer = new Node(element,null);
-        size++;
-
-        if (start == null) {
-            start = nodePointer;
-            end = start;
-        } else {
-            nodePointer.setLink(start);
-            start = nodePointer;
-        }
-    }
-
     public void insertAtBack(T element) {
 
         Node nodePointer = new Node(element, null);
@@ -129,6 +131,10 @@ public class MyLinkedList<T> implements Iterable<T> {
 
     /**
      * Checks if the LinkedList contains the element or not.
+     *
+     * Run-time complexity: O(N), where N is the size of the list. In the worst case, the whole
+     * list needs to be iterated over to check if the element exists or not.
+     *
      * @param element object that is to be checked
      * @return true if the object is in the linked list, false otherwise
      */
@@ -150,6 +156,10 @@ public class MyLinkedList<T> implements Iterable<T> {
 
     /**
      * Gets the element object at a specified index.
+     *
+     *  Run-time complexity: O(N), where N is the size of the list. This is worst-case, when the
+     *  index is the last one to be found in a list.
+     *
      * @param index the index of the element to be found
      * @return the element object itself
      */
@@ -169,6 +179,9 @@ public class MyLinkedList<T> implements Iterable<T> {
 
     /**
      * Removes the provided element from the LinkedList
+     *  Run-time complexity: O(N), as we need to traverse the linked list to the location of the
+     *  removal of the element given.
+     *
      * @param element object to be removed.
      */
     public void remove(T element) {

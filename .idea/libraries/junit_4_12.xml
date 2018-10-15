@@ -1,9 +1,6 @@
 <component name="libraryTable">
   <library name="junit-4.12">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/../junit-hamcrest_all/junit-4.12.jar!/" />
-      <root url="jar://$PROJECT_DIR$/../junit-hamcrest_all/hamcrest-all-1.3.jar!/" />
-    </CLASSES>
+    <CLASSES />
     <JAVADOC />
     <SOURCES />
   </library>

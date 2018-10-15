@@ -1,7 +1,18 @@
 package comp3506.assn2.utils;
 
 /**
- * Main Trie Class. Saves words inside itself.
+ * Main Trie Class. Uses TrieContainers to save words inside itself. The Trie has the ability to
+ * store words, perform word counts of a specific word, prefix searches, store positions of words
+ * and retrieve those positions as well.
+ *
+ * References:
+ * To implement this class, some implementation help was taken from the provided link :
+ * http://javabypatel.blogspot.com/2015/07/trie-datastructure-explanation-and-applications.html
+ *
+ * Space Complexity: The space complexity of this Trie would be O(N*K), where N is the number of
+ * Containers/Nodes inside the trie, and K is the amount of child pointers of each Node. This is
+ * because of the fact that even null points occupy space. In the worst case, the trie will store
+ * every character in each word.
  */
 public class Trie {
 
@@ -13,6 +24,10 @@ public class Trie {
 
     /**
      * Function that stores words into a trie.
+     *
+     * Run-time complexity: O(M), where M is the length of the word that is being stored.  At the
+     * end of the function, the location of the word is stored in the linked list, which can be
+     * done in constant time.
      *
      * @param start The starting TrieContainer/TrieNode
      * @param word The word to be saved
@@ -71,7 +86,11 @@ public class Trie {
 
 
     /**
-     * Returns a list of all locations the word is at.
+     *  Returns a list of all locations the word is at.
+     *  Run-time complexity: O(M), where the M is the size of the word that is to be found. This
+     * operation is basically traversing throughout the trie to add the positions of the
+     * character to a linked list, and hence happens in linear time (Because addition to a
+     * linked list takes place in constant time).
      *
      * @param start the starting TrieContainer/TrieNode.
      * @param word the word whose index is to be found
@@ -123,11 +142,15 @@ public class Trie {
     }
 
     /**
-     * Counts the occurences of the given word.
+     * Counts the occurrences of the given word.
+     *
+     * Run-time complexity: O(M), where the M is the size of the word that is to be found. This
+     * operation is basically traversing throughout the trie to match the characters of a given
+     * word, and hence happens in linear time.
      *
      * @param start The starting TrieContainer/TrieNode
-     * @param word  word for which the occurences are to be found
-     * @return  Integer representing the occurences of the given word
+     * @param word  word for which the occurrences are to be found
+     * @return  Integer representing the occurrences of the given word
      */
     public int wordCount(TrieContainer start,String word) {
         int count = 0;
@@ -171,7 +194,12 @@ public class Trie {
     }
 
     /**
-     * Checks if the given word is present in the given Trie or not
+     * Checks if the given word is present in the given Trie or not.
+     *
+     * Run-time complexity: O(M), where M is the length of the word that is to be found in the
+     * trie. Essentially, all the trie containers are traversed through to find each character in
+     * the given word, which happens in linear time.
+     *
      * @param start  The starting TrieContainer/TrieNode
      * @param word  The word that is to be found
      * @return  true if the word is present, false otherwise
@@ -204,7 +232,12 @@ public class Trie {
 
     /**
      * Prefix searcher function. For a given word, searches for the word and words that the given
-     * word is a prefix for
+     * word is a prefix for.
+     *
+     * Run time complexity: O(M+N) ~ O(N), where M is the length of the prefix and N is the
+     * number of nodes hanging off the prefix. The worst case occurs when an empty string is
+     * searched as the prefix, because then all of the nodes will be traversed through.
+     *
      * @param start  Starting TrieContainer/TrieNode
      * @param word  The word whose prefix is to be searched for
      * @return  MyLinkedList of all the indices of the word and its related prefix words
@@ -233,6 +266,10 @@ public class Trie {
     /**
      * Helper recursive function which traverses through all the nodes of the prefix and finds
      * their indices.
+     *
+     * Run-time Complexity: O(N), where N is the number of nodes hanging off the prefix. All of
+     * the TrieContainers/Nodes are traversed over from the last node of the prefix, and since
+     * all of them execute in linear time they all add up to an final run time complexity of O(N).
      *
      * @param word the word whose children nodes are to be found
      * @param container The starting TrieNode/TrieContainer
@@ -265,6 +302,18 @@ public class Trie {
         }
     }
 
+    /**
+     * Returns a list of all locations the word is at in the file, along with the word itself.
+     *
+     * Run time Complexity: O(M), where the M is the size of the word that is to be found. This
+     * operation is basically traversing throughout the trie to add the positions of the
+     * character to a linked list, and hence happens in linear time (Because addition to a
+     * linked list takes place in constant time).
+     *
+     * @param start the starting node of a Trie/ main container of a trie that's being searched
+     * @param word word for whose the locations are being searched
+     * @return
+     */
     public MyLinkedList<Triple<Integer,Integer,String>> returnTripleList(TrieContainer start,
                                                           String word) {
 
